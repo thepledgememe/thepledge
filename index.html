@@ -215,7 +215,7 @@
     <p>All the marketing we need is this: holders upholding their pledge.</p>
     <p>We don't shill $PLEDGE, but we invite frens to take the Pledge with us.</p>
 
-    <h2>Token Allocation</h2>
+    <h2>Initial Token Allocation</h2>
     <canvas id="tokenAllocationChart" width="400" height="400" style="margin: 0 auto; display: block;"></canvas>
     <script>
 
@@ -227,9 +227,9 @@
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Pledged Tokens', 'Liquidity Pool', 'Available to Sell'],
+                labels: ['Pledged Tokens', 'Liquidity Pool'],
                 datasets: [{
-                    data: [89, 10, 1],
+                    data: [90, 10],
                     backgroundColor: ['#003366', '#cce0ff', '#ffed99'],
                     borderWidth: 1
                 }]
@@ -262,12 +262,10 @@
                         formatter: (value, context) => {
                             const label = context.chart.data.labels[context.dataIndex];
                             if (label === 'Pledged Tokens') {
-                                return `89% Pledged Tokens 🤝`;
+                                return `90% Pledged Tokens 🤝`;
                             } else if (label === 'Liquidity Pool') {
                                 return `10% Liquidity Pool`;
-                            } else {
-                                return `1% Available to Sell`;
-                            }
+                            } 
                         },
                         anchor: (context) => {
                             const label = context.chart.data.labels[context.dataIndex];

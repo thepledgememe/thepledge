@@ -173,7 +173,7 @@
         <p style="margin: 0;">Contract address: coming soon</p>
     </header>
     
-    <h2>Token Allocation at Launch</h2>
+    <h2>Pledged Tokens</h2>
     <canvas id="tokenAllocationChart" width="400" height="400" style="margin: 0 auto; display: block;"></canvas>
     <script>
 
@@ -187,7 +187,7 @@
             data: {
                 labels: ['Pledged Tokens', 'Liquidity Pool', 'Available to Sell'],
                 datasets: [{
-                    data: [89, 10, 1],
+                    data: [89.1, 10, 0.9],
                     backgroundColor: ['#003366', '#cce0ff', '#ffed99'],
                     borderWidth: 1
                 }]
@@ -220,11 +220,11 @@
                         formatter: (value, context) => {
                             const label = context.chart.data.labels[context.dataIndex];
                             if (label === 'Pledged Tokens') {
-                                return `89% Pledged Tokens 🤝`;
+                                return `89.1% Pledged Tokens 🤝`;
                             } else if (label === 'Liquidity Pool') {
                                 return `10% Liquidity Pool`;
                             } else {
-                                return `1% Available to Sell`;
+                                return `0.9% Available to Sell`;
                             }
                         },
                         anchor: (context) => {
