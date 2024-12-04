@@ -1,0 +1,83 @@
+.container {
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 0px;
+}
+
+.summary {
+    display: flex;
+    justify-content: space-between;
+    /* Align items to the start and end */
+    align-items: center;
+    /* Vertically center the items */
+    margin-bottom: 20px;
+}
+
+.amount {
+    color: #003366;
+}
+
+.title {
+    color: #003366;
+    font-weight: bold;
+}
+
+
+
+/* Details styles */
+.details {
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    display: flex;
+    justify-content: space-between; /* Align items to the start and end */
+    align-items: center; /* Vertically center the items */
+    margin-bottom: 20px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    font-size: 18px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.tokenButton {
+    margin-left: 5px;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #ffdd57;
+    color: #333;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .tokenButton:hover {
+    background-color: #ffc107;
+    color: #222;
+  }
+  
+  .tokenButton:disabled {
+    background-color: #ddd; /* Gray background for disabled state */
+    color: #999; /* Muted text color */
+    cursor: not-allowed; /* Show "not allowed" cursor */
+    opacity: 0.7; /* Slight transparency for disabled effect */
+  }
+
+.smallText {
+    color: #888;
+    font-size: 12px;
+}
+
+.pledgePrice{
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,83 @@
+.header {
+  font-family: Courier;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  font-weight: 500;
+  font-size: 44.87px;
+  line-height: 53.85px;
+  color: #003366;
+  margin-right: 13px;
+}
+
+.logoImage{
+  object-fit: contain; 
+  width:54.35px;
+  height: 54.35px;
+  Left:54px
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.navPledge {
+  display: flex;
+  flex-direction: column;
+}
+
+.navButton {
+  border-radius: 0;
+  background-color: white;
+  border: none;
+  color: #003366;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 20px;
+  transition: color 0.3s ease;
+  box-shadow: 0px 15px 10px 0px #0530551A;
+  
+}
+
+.navButton:hover {
+  color: #003366;
+}
+
+.connectButton {
+  border-radius: 0;
+  background-color: #FFDA61;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #003366;
+  margin-bottom: 1px;
+  box-shadow: 0px 15px 10px 0px #0530551A;
+  
+}
+
+.pledgeButton {
+  border-radius: 0;
+  text-align: start;
+  background-color: rgb(17, 76, 134);
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 1px;
+}

@@ -1,0 +1,174 @@
+/* PledgeTable.module.css */
+
+.container {
+  font-family: sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.tableWrapper {
+  max-height: 400px;
+  /* Adjust this value to control the visible height of the table body */
+  overflow-y: auto;
+  /* Enable only vertical scrolling */
+  overflow-x: hidden;
+  /* Disable horizontal scrolling */
+  display: block;
+  /* Makes the table body scrollable */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  table-layout: fixed;
+  /* Ensures that the table does not horizontally overflow */
+}
+
+.tableHeader {
+  background-color: #f0f0f0;
+}
+
+.tableHeaderCell {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+
+.tableRow {
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+}
+
+.tableCell {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  text-overflow: ellipsis;
+  /* Adds ellipsis when text is too long */
+  overflow: hidden;
+  /* Hides overflow text */
+  white-space: nowrap;
+  /* Prevents text from wrapping to the next line */
+}
+
+/* Optional: Apply column-specific width (for example, for long text columns like wallet and twitter) */
+.tableCell.wallet {
+  width: 200px;
+  /* Set specific width for the wallet address column */
+}
+
+.tableCell.name {
+  width: 150px;
+  /* Set specific width for the name column */
+}
+
+.tableCell.twitter {
+  width: 150px;
+  /* Set specific width for the twitter column */
+}
+
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.searchInput {
+  width: 40%;
+  background: transparent;
+  min-width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.searchInputCont {
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchInputLabel {
+  margin-right: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: #f9f9f9;
+}
+
+.tableHeader {
+  background: #f3f3f3;
+  color: #333;
+  text-align: left;
+}
+
+.tableHeaderCell {
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+.tableRow:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.tableRow:nth-child(odd) {
+  background: #ffffff;
+}
+
+.tableRow.highlight {
+  background: #ffe0e0;
+  color: #d9534f;
+}
+
+.tableCell {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.noDataMessage {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Hover and clickable effect for rows */
+.tableRow:hover {
+  background: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Responsive table design */
+@media (max-width: 768px) {
+
+  .tableHeaderCell,
+  .tableCell {
+    font-size: 12px;
+  }
+}

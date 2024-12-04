@@ -1,0 +1,45 @@
+.pledgeContainer {
+    margin: 20px auto;
+    flex-direction: row;
+    text-align: center;
+    width: 100%;
+}
+
+.pledgeContainerBox {
+    display: flex;
+    flex-direction: row;
+    background-color: #f9f9f9;
+    color: #001c55;
+}
+
+.pledgeButton {
+    width: 100%;
+    background-color: #FFDA61;
+    color: #003366;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 54.55px;
+    font-weight: bold;
+    padding: 25px;
+    text-align: center;
+    text-transform: uppercase;
+    display: inline-block;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    line-height: 28.8px
+}
+
+.pledgeButton:hover {
+    background-color: #ffc600;
+    /* Slightly darker yellow on hover */
+}
+
+.pledgeSubtitle {
+    font-family:  Courier;
+    font-size: 15px;
+    text-align: center;
+    color: #003366;
+    margin-top: 5px;
+}

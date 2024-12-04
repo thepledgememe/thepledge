@@ -1,0 +1,33 @@
+.faqSection {
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 50px;
+  color: #003366;
+  font-family:  Courier;
+}
+
+.faq {
+  margin: 0 auto;
+}
+
+.faqItem h2, .faq h2 {
+  color: #003366;
+  font-weight: 500;
+  font-size: 50px;
+}
+
+.faqItem h3 {
+  color: #003366;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 40px;
+}
+
+.faqItem p {
+  color: #003366;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28.8px;
+}

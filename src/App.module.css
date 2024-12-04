@@ -1,0 +1,97 @@
+body {
+  background-color: #f4f4f9;
+}
+
+.App {
+  color: #333;
+  line-height: 1.6;
+}
+
+h1,
+h2 {
+  color: #222;
+}
+
+section {
+  margin: 20px 0;
+}
+
+.containerHome {
+  max-width: 898px;
+  margin: 0 auto;
+}
+
+.textFooter {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 400;
+  font-size: 33.09px;
+  line-height: 48.81px;
+  letter-spacing: -0.06em;
+  /* -6% letter spacing */
+}
+
+.centeredText {
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoImage {
+  width: 50px;
+  height: 50px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navButton,
+.connectButton,
+.pledgeButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navButton:hover,
+.connectButton:hover,
+.pledgeButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.navPledge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navPledge span {
+  font-weight: bold;
+  color: #333;
+}
+
+.connectError {
+  color: red;
+  font-size: 14px;
+}
