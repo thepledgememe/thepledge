@@ -4,7 +4,7 @@ export function timeLeftBetweenDates(startDate: Date, endDate: Date): string {
     const end = endDate.getTime();
     
     // Calculate the time difference in seconds
-    let diffInSeconds = Math.max(0, Math.floor((end - start) / 1000));
+    const diffInSeconds = Math.max(0, Math.floor((end - start) / 1000));
 
     if (diffInSeconds <= 0) {
         return 'Open Now';

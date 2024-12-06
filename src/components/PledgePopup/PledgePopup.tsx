@@ -21,7 +21,9 @@ const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
         return;
       }
       toast.success("Pledge confirmed successfully! 🎉");
-      onClose && onClose();
+      if (!!onClose) {
+        onClose();
+      }
     } finally {
       setIsConfirming(false);
     }

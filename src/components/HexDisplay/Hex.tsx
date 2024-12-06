@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import styles from "./HexDisplay.module.css"; // Import the CSS Module
-import Vector from "../../assets/Vector.svg";
-import VectorAnimal from "../../assets/Warstwa_1.svg";
+// import Vector from "../../assets/Vector.svg";
+// import VectorAnimal from "../../assets/Warstwa_1.svg";
 import VectorLines from "../../assets/image 20.svg";
 import Eagle from "../../assets/Group 57.svg";
 import Tg from "../../assets/tg.svg";

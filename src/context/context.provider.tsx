@@ -70,7 +70,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         });
         console.log(txResult);
         return true;
-    }, [isConnected, connect]);
+    }, [isConnected, connect, tokenAddress, pledgeAbi, address, chainId]);
 
     const { data: pledgedAmountRow } = useReadContract({
         address: tokenAddress,
