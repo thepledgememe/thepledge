@@ -21,7 +21,7 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <img src={logo} alt="The Pledge Logo" className={styles.logoImage} />
-        <span>The Pledge</span>
+        <a href="/" style={{color: '#333'}}>The Pledge</a>
       </div>
       <nav className={styles.nav}>
         <button
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
         )}
         {showBalance && (
           <div className={styles.navPledge}>
-            <span>{`Balance: ${balance || 0}`}</span>
+            <span>{`Balance: ${balance.dp(0).toNumber().toLocaleString() || 0}`}</span>
             <button
               className={styles.pledgeButton}
               onClick={goToYourPledge}

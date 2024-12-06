@@ -15,36 +15,69 @@ const chartData = {
 
 const chartOptions = {
   responsive: true,
-  maintainAspectRatio: false,
+  layout: {
+    padding: {
+      top: 70,
+      bottom: 70,
+      left: 20,
+      right: 20
+    }
+  },
   plugins: {
+    legend: {
+      display: false // Disable default legend
+    },
     tooltip: {
-      callbacks: {
-        label: (context) => {
-          const label = context.label || "";
-          const value = context.raw;
-          return `${label}: ${value}%`;
-        },
-      },
+      enabled: false // Disable default tooltip
     },
     datalabels: {
-      formatter: (_, context) => {
-        const labels = context.chart.data.labels;
-        if (labels && context.dataIndex < labels.length) {
-          const label = labels[context.dataIndex];
-          return label === "Pledged Tokens" ? "90% Pledged Tokens 🤝" : "10% Liquidity Pool";
-        }
-        return "";
-      },
       color: (context) => {
-        const labels = context.chart.data.labels;
-        return labels && context.dataIndex < labels.length && labels[context.dataIndex] === "Pledged Tokens" ? "#fff" : "#003366";
+        const label = context.chart.data.labels[context.dataIndex];
+        return label === 'Pledged Tokens' ? '#fff' : '#003366'; // White for Pledged Tokens, Dark Blue for others
       },
-    },
-    legend: {
-      position: "bottom",
-    },
-  },
-};
+      font: {
+        weight: 'bold'
+      },
+      formatter: (_, context) => {
+        const label = context.chart.data.labels[context.dataIndex];
+        if (label === 'Pledged Tokens') {
+          return `90% Pledged Tokens 🤝`;
+        } else if (label === 'Liquidity Pool') {
+          return `10% Liquidity Pool`;
+        }
+      },
+      anchor: (context) => {
+        const label = context.chart.data.labels[context.dataIndex];
+        return label === 'Available to Sell' ? 'center' : 'end';
+      },
+      align: (context) => {
+        const label = context.chart.data.labels[context.dataIndex];
+        return label === 'Liquidity Pool' ? 'end' : 'end';
+      },
+      offset: (context) => {
+        const label = context.chart.data.labels[context.dataIndex];
+        if (label === 'Pledged Tokens') return 20;
+        if (label === 'Liquidity Pool') return 40;
+
+        return 60; // Available to Sell
+      },
+      backgroundColor: (context) => {
+        const index = context.dataIndex;
+        return context.chart.data.datasets[0].backgroundColor[index];
+      },
+      padding: {
+        top: 8,
+        bottom: 8,
+        left: 15,
+        right: 15
+      },
+      borderRadius: 15,
+      borderWidth: 1,
+      borderColor: 'rgba(0, 0, 0, 0.2)', // Simulates a subtle shadow effect
+
+    }
+  }
+}
 
 const TokenAllocationChart: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
@@ -70,7 +103,7 @@ const TokenAllocationChart: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "400px" }}>
+    <div style={{ width: "100%", height: "300px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <canvas
         ref={chartRef}
         aria-label="Token allocation chart showing 90% for pledged tokens and 10% for the liquidity pool"

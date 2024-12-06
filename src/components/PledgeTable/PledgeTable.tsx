@@ -26,8 +26,8 @@ const PledgeTable: React.FC = () => {
                     complete: (result) => {
                         // @ts-ignore
                         const parsedData = result.data.map((row: string[]) => ({
-                            wallet: row[0] || "N/A",
-                            name: row[1] || "Anonymous",
+                            wallet: row[1] || "N/A",
+                            name: row[0] || "Anonymous",
                             twitter: row[2] || "N/A",
                             pledgedTokens: +row[3] || 0,
                         }));
@@ -52,7 +52,9 @@ const PledgeTable: React.FC = () => {
 
     useEffect(() => {
         const filtered = data.filter((item) =>
-            item.name.toLowerCase().includes(searchQuery.toLowerCase())
+            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.twitter.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.wallet.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setFilteredData(filtered);
     }, [searchQuery, data]);
@@ -60,10 +62,10 @@ const PledgeTable: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.searchInputCont}>
-                <span className={styles.searchInputLabel}>FIND WALLET ADRESS</span>
+                <span className={styles.searchInputLabel}>FIND PLEDGER</span>
                 <input
                     type="text"
-                    placeholder="Search by name..."
+                    placeholder="Search ..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className={styles.searchInput}
@@ -78,6 +80,7 @@ const PledgeTable: React.FC = () => {
                     <table className={styles.table}>
                         <thead>
                             <tr className={styles.tableHeader}>
+                                <th className={styles.tableHeaderCellSmall}>#</th>
                                 <th className={styles.tableHeaderCell}>Wallet Address</th>
                                 <th className={styles.tableHeaderCell}>Name</th>
                                 <th className={styles.tableHeaderCell}>Twitter Handle</th>
@@ -91,10 +94,19 @@ const PledgeTable: React.FC = () => {
                                     className={`${styles.tableRow} ${item.pledgedTokens < 1000 ? styles.highlight : ""
                                         }`}
                                 >
-                                    <td className={styles.tableCell}>{item.wallet}</td>
+                                    <td className={styles.tableCell}>{index + 1}</td>
+                                    <td className={styles.tableCell}>
+                                        <a href={`https://etherscan.io/address/${item.wallet}`} target="blank" style={{ color: 'rgb(17, 76, 134)' }}>
+                                            {item.wallet}
+                                        </a>
+                                    </td>
                                     <td className={styles.tableCell}>{item.name}</td>
-                                    <td className={styles.tableCell}>{item.twitter}</td>
-                                    <td className={styles.tableCell}>{item.pledgedTokens}</td>
+                                    <td className={styles.tableCell}>
+                                        <a href={`https://x.com/${item.twitter}`} target="blank" style={{ color: 'rgb(17, 76, 134)' }}>
+                                            {`@${item.twitter}`}
+                                        </a>
+                                    </td>
+                                    <td className={styles.tableCell} style={{ textAlign: 'right' }}>{parseInt(item.pledgedTokens?.toString()).toLocaleString()}</td>
                                 </tr>
                             ))}
                             {filteredData.length === 0 && (

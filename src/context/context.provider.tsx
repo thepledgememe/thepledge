@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback, useMemo } from "react";
-import { useAccount, useChainId, useBalance, useConnect, useWriteContract, useReadContract } from "wagmi";
+import { useAccount, useChainId, useBalance, useConnect, useWriteContract, useReadContract, useChains } from "wagmi";
 import { appConfig } from "../web3/config";
 import BigNumber from "bignumber.js";
 import { pledgeAbi } from "../web3/abi";
@@ -13,6 +13,10 @@ type AppContextType = {
     totalPledge: BigNumber | null;
     pledgeAvailableToSell: BigNumber | null;
     pledgeTokens: () => Promise<boolean>,
+    pledgeWindow: number,
+    availableToPLedge: BigNumber,
+    isPledgeBroken: boolean,
+    tokenAddress:string
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -22,11 +26,12 @@ type AppProviderProps = {
 };
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-    const { connectors, connect, isPending } = useConnect();
+    const { connectors, connect, connectAsync, isPending, } = useConnect();
     const [isInjectorInstalled, setIsInjectorInstalled] = useState(false);
-    const { address } = useAccount();
-    const { writeContractAsync } = useWriteContract()    
+    const { address, isConnected } = useAccount();
+    const { writeContractAsync } = useWriteContract()
     const chainId = useChainId();
+    const chains = useChains();
 
     //@ts-ignore
     const tokenAddress = chainId && chainId in appConfig ? appConfig[chainId]?.tokenAddress : undefined;
@@ -53,18 +58,21 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     const pledgeTokens = useCallback(async () => {
+        if (!isConnected) {
+            await connectAsync();
+        }
         const txResult = await writeContractAsync({
             address: tokenAddress,
             abi: pledgeAbi,
             account: address,
-            chain: null,
+            chain: chains.find(ch => ch.id === chainId),
             functionName: 'pledge'
         });
         console.log(txResult);
         return true;
-    }, []);
+    }, [isConnected, connect]);
 
-    const {data: pledgedAmountRow } = useReadContract({        
+    const { data: pledgedAmountRow } = useReadContract({
         address: tokenAddress,
         abi: pledgeAbi,
         account: address,
@@ -75,7 +83,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         }
     });
 
-    const {data: pledgeAvailableToSellRow } = useReadContract({        
+    const { data: pledgeAvailableToSellRow } = useReadContract({
         address: tokenAddress,
         abi: pledgeAbi,
         account: address,
@@ -88,22 +96,41 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     const balance = tokenBalance ? BigNumber(tokenBalance.value.toString()).div(10 ** tokenBalance.decimals) : BigNumber(0);
 
-    const pledgedAmount = useMemo( () => {
+    const pledgedAmount = useMemo(() => {
         if (!pledgedAmountRow) {
             return BigNumber(0);
         }
-        
+
         return BigNumber(pledgedAmountRow.toString()).div(10 ** 18);
     }, [pledgedAmountRow]);
     const pledgeAvailableToSell = useMemo(() => {
         if (!pledgeAvailableToSellRow || !pledgeAvailableToSellRow[4]) {
             return BigNumber(0);
         }
-        
+
         return BigNumber(pledgeAvailableToSellRow[4].toString()).div(10 ** 18);
     }, [pledgeAvailableToSellRow]);
-    const totalPledge = balance;
+    const pledgeWindow = useMemo(() => {
+        if (!pledgeAvailableToSellRow || !pledgeAvailableToSellRow[5]) {
+            return 0;
+        }
 
+        return parseInt(pledgeAvailableToSellRow[5].toString()) * 1000;
+    }, [pledgeAvailableToSellRow]);
+
+    const isPledgeBroken = useMemo(() => {
+        if (!pledgeAvailableToSellRow || !pledgeAvailableToSellRow[0]) {
+            return false;
+        }
+        return pledgeAvailableToSellRow[0] === 2;
+    }, [pledgeAvailableToSellRow]);
+
+    let availableToPLedge = balance.minus(pledgedAmount || 0);
+    if (availableToPLedge.isNegative()) {
+      availableToPLedge = BigNumber(0);
+    }
+
+    const totalPledge = balance;
     console.log(pledgeAvailableToSellRow);
 
     return (
@@ -114,9 +141,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 connectWallet,
                 balance,
                 pledgeTokens,
+                pledgeWindow,
+                isPledgeBroken,
                 pledgedAmount: pledgedAmount,
                 totalPledge: totalPledge,
-                pledgeAvailableToSell: pledgeAvailableToSell
+                availableToPLedge,
+                pledgeAvailableToSell: pledgeAvailableToSell,
+                tokenAddress
             }}
         >
             {children}

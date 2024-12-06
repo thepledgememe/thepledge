@@ -8,7 +8,7 @@ const HeroSection: React.FC = () => {
       <div>
         <div className={styles.pledgeWrapper}>
           <div className={styles.pledgeTitle}>
-            <span>“THE PLEDGE”</span>
+            <span>THE PLEDGE</span>
           </div>
           <div className={styles.pledgeContent}>
             <div className={styles.pledgeItem}>
@@ -23,9 +23,9 @@ const HeroSection: React.FC = () => {
                 I will tweet once a month: "I am upholding the $PLEDGE"
               </p>
             </div>
-            <PledgeButton />
           </div>
         </div>
+        <PledgeButton />
       </div>
     </div>
   );

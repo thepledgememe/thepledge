@@ -10,7 +10,7 @@ interface PopupProps {
 }
 
 const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
-  const { balance, pledgeTokens } = useAppContext();
+  const { availableToPLedge, pledgeTokens } = useAppContext();
   const [isConfirming, setIsConfirming] = useState(false);
   const confirmPledge = useCallback(async () => {
     try {
@@ -45,13 +45,13 @@ const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
         <button className={styles.closeButton} onClick={onClose}>
           X
         </button>
-        <p className={styles.text}>YOU ARE ADDING {balance.toString()} TO PLEDGE</p>
+        <p className={styles.text}>YOU ARE ADDING {availableToPLedge.dp(0).toString()} TO YOUR PLEDGE</p>
         {/*<input
           type="text"
           placeholder="Add your twitter handle here..."
           className={styles.twitterInput}
         />*/}
-        <button className={styles.confirmButton} disabled={isConfirming || balance.isZero()}
+        <button className={styles.confirmButton} disabled={isConfirming || availableToPLedge.isZero()}
           onClick={confirmPledge}>CONFIRM</button>
         <p className={styles.connectedAddress}>
           You are connected with <span>0xAbCdEf...1234</span>

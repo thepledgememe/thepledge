@@ -4,6 +4,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import styles from '../App.module.css';
 import { ToastContainer } from "react-toastify";
+import HexDisplay from "./HexDisplay/Hex";
 
 interface LayoutProps {
   title?: string;
@@ -19,6 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ title, description, children }) => {
         <title>{title || "The Pledge"}</title>
         <meta name="description" content={description || "Make your Pledge!"} />
       </Helmet>
+      <HexDisplay />
       <Header />
       <main className={styles.containerHome}>
         {children}

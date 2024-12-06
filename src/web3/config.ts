@@ -15,9 +15,9 @@ export const config = createConfig({
 
 export const appConfig = {
   [mainnet.id]: {
-    tokenAddress: "0xMainnetTokenAddressHere",
+    tokenAddress: "0x910812c44ed2a3b611e4b051d9d83a88d652e2dd",
   },
   [sepolia.id]: {
-    tokenAddress: "0xb0aE7040e2B56935140160684eBC004b1B6D5e89",
+    tokenAddress: "0x37538D1201486e11f5A06779168a30bA9D683a12",
   },
 };
