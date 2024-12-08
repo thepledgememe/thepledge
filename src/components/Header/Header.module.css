@@ -1,46 +1,53 @@
 .header {
-  font-family: Courier;
+  font-family: Courier, sans-serif;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  box-shadow: 0 2px 4px white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: #F5F5F5
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px; 
-  font-weight: 500;
-  font-size: 44.87px;
-  line-height: 53.85px;
-  color: #003366;
-  margin-right: 13px;
+  gap: 10px;
 }
 
-.logoImage{
-  object-fit: contain; 
-  width:54.35px;
-  height: 54.35px;
-  Left:54px
+.logoImage {
+  object-fit: contain;
+  width: 50px;
+  height: 50px;
+}
+
+.logoText {
+  color: #003366;
+  font-weight: 500;
+  font-size: 18px;
+  text-decoration: none;
 }
 
 .nav {
   display: flex;
   gap: 10px;
   align-items: baseline;
+  flex-wrap: wrap;
 }
 
-.navPledge {
-  display: flex;
-  flex-direction: column;
+.navButton,
+.connectButton,
+.pledgeButton {
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.navButton {
-  border-radius: 0;
+.navButton {border-radius: 0;
   background-color: white;
   border: none;
   color: #003366;
@@ -49,35 +56,81 @@
   padding: 5px 20px;
   transition: color 0.3s ease;
   box-shadow: 0px 15px 10px 0px #0530551A;
-  
 }
 
 .navButton:hover {
-  color: #003366;
+  background-color: #003366;
+  color: #fff;
 }
 
 .connectButton {
-  border-radius: 0;
   background-color: #FFDA61;
-  color: white;
-  border: none;
-  padding: 5px 15px;
-  font-size: 14px;
-  cursor: pointer;
   color: #003366;
-  margin-bottom: 1px;
-  box-shadow: 0px 15px 10px 0px #0530551A;
-  
+  border: none;
 }
 
-.pledgeButton {
-  border-radius: 0;
+.pledgeButton { border-radius: 0;
   text-align: start;
   background-color: rgb(17, 76, 134);
   color: white;
   border: none;
   padding: 5px 15px;
+}
+
+.navPledge {
+  display: flex;
+  flex-direction: column;
+}
+
+.connectError {
+  color: red;
   font-size: 14px;
-  cursor: pointer;
-  margin-bottom: 1px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .navButton,
+  .connectButton,
+  .pledgeButton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navPledge {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoImage {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logoText {
+    font-size: 16px;
+  }
+
+  .navButton,
+  .connectButton,
+  .pledgeButton {
+    font-size: 12px;
+  }
 }

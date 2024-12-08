@@ -7,7 +7,8 @@ import { useAccount } from "wagmi";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { isInjectorInstalled, isLoading, connectWallet, balance } = useAppContext();
+  const { isInjectorInstalled, isLoading, connectWallet, balance } =
+    useAppContext();
   const { isConnected } = useAccount();
   const goToAbout = () => navigate("/about");
   const goToYourPledge = () => navigate("/your-pledge");
@@ -21,21 +22,15 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <img src={logo} alt="The Pledge Logo" className={styles.logoImage} />
-        <a href="/" style={{color: '#333'}}>The Pledge</a>
+        <a href="/" className={styles.logoText}>
+          The Pledge
+        </a>
       </div>
       <nav className={styles.nav}>
-        <button
-          className={styles.navButton}
-          onClick={goToAbout}
-          aria-label="Navigate to About Page"
-        >
+        <button className={styles.navButton} onClick={goToAbout}>
           About
         </button>
-        <button
-          className={styles.navButton}
-          onClick={goToDashboard}
-          aria-label="Navigate to Dashboard Page"
-        >
+        <button className={styles.navButton} onClick={goToDashboard}>
           Dashboard
         </button>
         {showInstallMetamask && (
@@ -54,7 +49,6 @@ const Header: React.FC = () => {
           <button
             className={styles.connectButton}
             onClick={connectWallet}
-            aria-label="Connect Wallet"
             disabled={isLoading}
           >
             {isLoading ? "Connecting..." : "Connect to Pledge"}
@@ -62,12 +56,10 @@ const Header: React.FC = () => {
         )}
         {showBalance && (
           <div className={styles.navPledge}>
-            <span>{`Balance: ${balance.dp(0).toNumber().toLocaleString() || 0}`}</span>
-            <button
-              className={styles.pledgeButton}
-              onClick={goToYourPledge}
-              aria-label="Navigate to Your Pledge Page"
-            >
+            <span>{`Balance: ${
+              balance.dp(0).toNumber().toLocaleString() || 0
+            }`}</span>
+            <button className={styles.pledgeButton} onClick={goToYourPledge}>
               Your Pledge
             </button>
           </div>

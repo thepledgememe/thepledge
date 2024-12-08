@@ -1,45 +1,70 @@
 .pledgeContainer {
     margin: 20px auto;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     width: 100%;
-}
-
-.pledgeContainerBox {
+  }
+  
+  .pledgeContainerBox {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     background-color: #f9f9f9;
     color: #001c55;
-}
-
-.pledgeButton {
+    width: 100%;
+  }
+  
+  .pledgeButton {
     width: 100%;
     background-color: #FFDA61;
     color: #003366;
     border: none;
     padding: 10px 20px;
-    border-radius: 0px;
+    border-radius: 0;
     font-family: "Courier New", Courier, monospace;
-    font-size: 54.55px;
+    font-size: 3.2em;
     font-weight: bold;
-    padding: 25px;
     text-align: center;
     text-transform: uppercase;
-    display: inline-block;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    line-height: 28.8px
-}
-
-.pledgeButton:hover {
-    background-color: #ffc600;
-    /* Slightly darker yellow on hover */
-}
-
-.pledgeSubtitle {
-    font-family:  Courier;
-    font-size: 15px;
+    line-height: 1.2;
+  }
+  
+  .pledgeButton:hover {
+    background-color: #ffc600; /* Slightly darker yellow on hover */
+  }
+  
+  .pledgeSubtitle {
+    font-family: Courier, monospace;
+    font-size: 14px;
     text-align: center;
     color: #003366;
-    margin-top: 5px;
-}
+    margin-top: 10px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .pledgeButton {
+      font-size: 42px;
+      padding: 15px;
+    }
+  
+    .pledgeSubtitle {
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pledgeButton {
+      font-size: 32px;
+      padding: 10px;
+    }
+  
+    .pledgeSubtitle {
+      font-size: 10px;
+    }
+  }
+  

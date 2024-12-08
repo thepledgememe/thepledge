@@ -1,32 +1,83 @@
 .hexDisplay {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-    border-bottom: 1px solid white;
-    background-color: #f4f4f9;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f4f4f9;
+}
+
+.hexCode {
+  color: #003366;
+  font-size: 14px;
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+.iconContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: flex-end;
+}
+
+.button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.img {
+  width: 16px;
+  height: 16px;
+}
+
+.eagleImg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hexDisplay {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
   }
-  
+
   .hexCode {
-    color: #003366;
-    font-size: 15px;
-    margin-right: auto;
-    margin-left: 20px;
+    font-size: 12px;
+    margin-bottom: 8px;
   }
-  
-  .button {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    margin: 0 4px;
+
+  .iconContainer {
+    justify-content: center;
+    width: 100%;
+    gap: 16px;
   }
-  
-  .img {
-    width: 16px;
-    height: 16px;
+
+  .img,
+  .eagleImg {
+    width: 20px;
+    height: 20px;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .hexCode {
+    font-size: 10px;
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .iconContainer {
+    gap: 10px;
+  }
+
+  .img,
   .eagleImg {
     width: 18px;
     height: 18px;
   }
-  
+}

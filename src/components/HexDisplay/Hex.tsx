@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import styles from "./HexDisplay.module.css"; // Import the CSS Module
+import styles from "./HexDisplay.module.css";
 // import Vector from "../../assets/Vector.svg";
 // import VectorAnimal from "../../assets/Warstwa_1.svg";
 import VectorLines from "../../assets/image 20.svg";
@@ -28,63 +28,60 @@ const HexDisplay: React.FC = () => {
       <span className={styles.hexCode}>
         <p>CA: {tokenAddress}</p>
       </span>
-      {/*<button title="Vector" className={styles.button}>
+      <div className={styles.iconContainer}>
+        {/*<button title="Vector" className={styles.button}>
         <img src={Vector} alt="Share" className={styles.img} />
       </button>
       <button title="VectorAnimal" className={styles.button}>
         <img src={VectorAnimal} alt="Share" className={styles.img} />
       </button>*/}
-      <button
-        title="VectorLines"
-        className={styles.button}
-        onClick={() => handleClick(CONFIG.LINKS.DEX_TOOLS)}
-      >
-        <img src={VectorLines} alt="Share" className={styles.img} />
-      </button>
-      <button
-        title="Eagles"
-        className={styles.button}
-        onClick={() => handleClick(CONFIG.LINKS.DEX_SCREENER)}
-      >
-        <img
-          src={Eagle}
-          alt="Share"
-          className={styles.eagleImg}
-          style={{ width: "35px", height: "35px" }}
-        />
-      </button>
-      <button
-        title="Tg"
-        className={styles.button}
-        ref={telegramRef}
-        onClick={() => handleClick(CONFIG.LINKS.TELEGRAM)}
-      >
-        <img src={Tg} alt="Share" className={styles.img} />
-      </button>
-      <button
-        title="Twitter"
-        className={styles.button}
-        ref={xRef}
-        onClick={() => handleClick(CONFIG.LINKS.X)}
-      >
-        <img src={Twitter} alt="Share" className={styles.img} />
-      </button>
-      <button
-        title="Discord"
-        className={styles.button}
-        ref={discordRef}
-        onClick={() => handleClick(CONFIG.LINKS.DISCORD)}
-      >
-        <img src={DiscordIcon} alt="Share" className={styles.img} />
-      </button>
-      <button
-        title="Instagram"
-        className={styles.button}
-        ref={instagramRef}
-        onClick={() => handleClick(CONFIG.LINKS.INSTAGRAM)}
-      >
-        <img src={InstagramIcon} alt="Share" className={styles.img} />
-      </button>
+        <button
+          title="VectorLines"
+          className={styles.button}
+          onClick={() => handleClick(CONFIG.LINKS.DEX_TOOLS)}
+        >
+          <img src={VectorLines} alt="DEX Tools" className={styles.img} />
+        </button>
+        <button
+          title="Eagles"
+          className={styles.button}
+          onClick={() => handleClick(CONFIG.LINKS.DEX_SCREENER)}
+        >
+          <img src={Eagle} alt="DEX Screener" className={styles.eagleImg} />
+        </button>
+        <button
+          title="Tg"
+          className={styles.button}
+          ref={telegramRef}
+          onClick={() => handleClick(CONFIG.LINKS.TELEGRAM)}
+        >
+          <img src={Tg} alt="Telegram" className={styles.img} />
+        </button>
+        <button
+          title="Twitter"
+          className={styles.button}
+          ref={xRef}
+          onClick={() => handleClick(CONFIG.LINKS.X)}
+        >
+          <img src={Twitter} alt="Twitter" className={styles.img} />
+        </button>
+        <button
+          title="Discord"
+          className={styles.button}
+          ref={discordRef}
+          onClick={() => handleClick(CONFIG.LINKS.DISCORD)}
+        >
+          <img src={DiscordIcon} alt="Discord" className={styles.img} />
+        </button>
+        <button
+          title="Instagram"
+          className={styles.button}
+          ref={instagramRef}
+          onClick={() => handleClick(CONFIG.LINKS.INSTAGRAM)}
+        >
+          <img src={InstagramIcon} alt="Instagram" className={styles.img} />
+        </button>
+      </div>
     </div>
   );
 };

@@ -2,57 +2,59 @@
     padding: 20px;
     margin: 0 auto;
     border-radius: 0px;
-}
-
-.summary {
+  }
+  
+  .summary {
     display: flex;
+    
     justify-content: space-between;
-    /* Align items to the start and end */
     align-items: center;
-    /* Vertically center the items */
     margin-bottom: 20px;
-}
-
-.amount {
+    text-align: center;
+  }
+  
+  .amount {
     color: #003366;
     font-size: 45px;
-}
-
-.title {
+    margin: 10px 0;
+  }
+  
+  .title {
     color: #003366;
     font-weight: bold;
     font-size: 45px;
-}
-
-
-
-/* Details styles */
-.details {
+  }
+  
+  /* Details styles */
+  .details {
     display: flex;
     flex-direction: column;
-}
-
-.section {
+    gap: 20px;
+  }
+  
+  .section {
     display: flex;
-    justify-content: space-between; /* Align items to the start and end */
-    align-items: center; /* Vertically center the items */
-    margin-bottom: 20px;
-}
-
-.label {
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+  
+  .label {
     font-weight: bold;
-}
-
-.value {
-    font-size: 18px;
+    font-size: 16px;
+  }
+  
+  .value {
+    font-size: 17px;
     color: #333;
     margin: 5px 0;
-}
-
-.tokenButton {
+  }
+  
+  .tokenButton {
     margin-left: 5px;
     display: inline-block;
-    padding: 10px 10px;
+    padding: 10px 20px;
     background-color: #ffdd57;
     color: #333;
     font-weight: bold;
@@ -60,6 +62,7 @@
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
   }
   
   .tokenButton:hover {
@@ -73,13 +76,81 @@
     cursor: not-allowed; /* Show "not allowed" cursor */
     opacity: 0.7; /* Slight transparency for disabled effect */
   }
-
-.smallText {
+  
+  .smallText {
     color: #888;
     font-size: 12px;
-}
-
-.pledgePrice{
+  }
+  
+  .pledgePrice {
     display: flex;
     flex-direction: column;
-}
+    align-items: flex-start;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+      max-width: 90%;
+    }
+  
+    .summary {
+      text-align: center;
+    }
+  
+    .title {
+      font-size: 24px;
+    }
+  
+    .amount {
+      font-size: 35px;
+    }
+  
+    .details {
+      gap: 15px;
+    }
+  
+    .section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .label {
+      font-size: 16px;
+    }
+  
+    .value {
+      font-size: 14px;
+    }
+  
+    .tokenButton {
+      width: 100%;
+      font-size: 14px;
+      padding: 8px 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 20px;
+    }
+  
+    .amount {
+      font-size: 28px;
+    }
+  
+    .label {
+      font-size: 14px;
+    }
+  
+    .value {
+      font-size: 12px;
+    }
+  
+    .tokenButton {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  }
+  
