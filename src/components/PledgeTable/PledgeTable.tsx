@@ -26,8 +26,8 @@ const PledgeTable: React.FC = () => {
                     complete: (result) => {
                         // @ts-ignore
                         const parsedData = result.data.map((row: string[]) => ({
-                            wallet: row[1] || "N/A",
-                            name: row[0] || "Anonymous",
+                            wallet: row[0] || "N/A",
+                            name: row[1] || "Anonymous",
                             twitter: row[2] || "N/A",
                             pledgedTokens: +row[3] || 0,
                         }));
