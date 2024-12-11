@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
 import styles from "./PledgeButton.module.css";
+import CONFIG from "../../config";
 
 const PledgeButton: React.FC = () => {
   const onClicked = useCallback(() => {
-    window.open("https://app.uniswap.org/", "_blank");
+    window.open(CONFIG.LINKS.UNISWAP, "_blank");
   }, []);
 
   return (

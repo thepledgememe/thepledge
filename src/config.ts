@@ -1,6 +1,6 @@
 const CONFIG = {
   LINKS: {
-    UNISWAP: "https://app.uniswap.org/",
+    UNISWAP: "https://app.uniswap.org/explore/tokens/ethereum/0x910812c44ed2a3b611e4b051d9d83a88d652e2dd",
     DISCORD: "https://discord.com/invite/vHsp8sukvH",
     PDF: "/PledgeWhitepaper.pdf",
     PLEDGE: "/your-pledge",
