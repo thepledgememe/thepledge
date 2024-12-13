@@ -11,6 +11,7 @@ interface PopupProps {
 
 const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
   const { availableToPLedge, pledgeTokens } = useAppContext();
+  const { address, isConnected } = useAccount();
   const [isConfirming, setIsConfirming] = useState(false);
   const confirmPledge = useCallback(async () => {
     try {
@@ -55,9 +56,9 @@ const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
         />*/}
         <button className={styles.confirmButton} disabled={isConfirming || availableToPLedge.isZero()}
           onClick={confirmPledge}>CONFIRM</button>
-        <p className={styles.connectedAddress}>
-          You are connected with <span>0xAbCdEf...1234</span>
-        </p>
+        {isConnected && <p className={styles.connectedAddress}>
+          You are connected with <span>{`${address.slice(0, 6)}...${address.slice(-4)}`}</span>
+        </p>}
       </div>
     </div>
   );
