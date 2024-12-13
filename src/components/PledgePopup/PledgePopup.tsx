@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import styles from "./Popup.module.css";
 import { useAppContext } from "../../context/context.provider";
 import LoadingSpinner from "../LoadingSpinner";
+import { useAccount } from "wagmi";
 
 interface PopupProps {
   isOpen: boolean;
