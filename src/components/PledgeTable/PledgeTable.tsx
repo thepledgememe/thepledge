@@ -1,82 +1,122 @@
-import React, { useEffect, useState } from "react";
-import Papa from "papaparse";
+import React, { useCallback, useEffect, useState } from "react";
+import LoadingOverlay from "react-loading-overlay-ts";
+import ReactPaginate from "react-paginate";
+import { debounce } from "lodash";
 import styles from "./PledgeTable.module.css";
+import { useAppContext } from "../../context/context.provider";
+import {
+  STATUS_BROKEN,
+  isPledgeActive,
+  isPledgeBroken,
+} from "../../helpers/pledge-status";
 
-interface PledgeData {
-  wallet: string;
-  name: string;
-  twitter: string;
-  pledgedTokens: number;
-}
+const ITEMS_PER_PAGE = 20;
 
 const PledgeTable: React.FC = () => {
-  const [data, setData] = useState<PledgeData[]>([]);
-  const [filteredData, setFilteredData] = useState<PledgeData[]>([]);
+  const {
+    pledgersData: {
+      isFetchingPledgers,
+      pledgers,
+      fetchPledgers,
+      pledgersListPage,
+      pledgersFilters,
+      totalPledgersCount,
+    },
+  } = useAppContext();
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [showBrokenOnly, setShowBrokenOnly] = useState(false);
+
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      fetchPledgers({
+        pledgersListPage: 1,
+        limit: ITEMS_PER_PAGE,
+        filters: {
+          key: value,
+          status: showBrokenOnly ? STATUS_BROKEN : undefined,
+        },
+      });
+    }, 500),
+    [showBrokenOnly, fetchPledgers, fetchPledgers],
+  );
+
+  // Update searchQuery with debounce
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/pledgers.csv");
-        if (!response.ok) throw new Error("Failed to fetch CSV file.");
-        const text = await response.text();
+    fetchPledgers({
+      pledgersListPage: 1,
+      limit: ITEMS_PER_PAGE,
+      filters: {
+        key: searchQuery,
+        status: showBrokenOnly ? STATUS_BROKEN : undefined,
+      },
+    });
+  }, [showBrokenOnly]);
 
-        Papa.parse<PledgeData>(text, {
-          complete: (result) => {
-            // @ts-ignore
-            const parsedData = result.data.map((row: string[]) => ({
-              wallet: row[0] || "N/A",
-              name: row[1] || "Anonymous",
-              twitter: row[2] || "N/A",
-              pledgedTokens: +row[3] || 0,
-            }));
-            setData(parsedData);
-            setFilteredData(parsedData);
-            setIsLoading(false);
-          },
-          error: (error) => {
-            console.error("Error parsing CSV:", error);
-            setIsLoading(false);
-          },
-          skipEmptyLines: true,
-        });
-      } catch (error) {
-        console.error("Error fetching CSV:", error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const filtered = data.filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.twitter.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.wallet.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredData(filtered);
-  }, [searchQuery, data]);
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    fetchPledgers({
+      filters: pledgersFilters,
+      pledgersListPage: selected + 1,
+      limit: ITEMS_PER_PAGE,
+    });
+  };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.searchInputCont}>
-        <span className={styles.searchInputLabel}>FIND PLEDGER</span>
-        <input
-          type="text"
-          placeholder="Search ..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className={styles.searchInput}
-          aria-label="Search by name"
-        />
-      </div>
+    <LoadingOverlay
+      active={isFetchingPledgers}
+      spinner
+      text="Loading your content..."
+      styles={{
+        overlay: (base) => ({
+          ...base,
+          background: "rgba(200, 200, 200, 0.3)", // Semi-transparent white
+          transition: "opacity 0.5s ease",
+          borderRadius: "40px",
+        }),
+        spinner: (base) => ({
+          ...base,
+          width: "50px",
+          height: "50px",
+        }),
+        content: (base) => ({
+          ...base,
+          fontSize: "16px",
+          color: "#555",
+        }),
+      }}
+    >
+      <div className={styles.container}>
+        <div className={styles.searchInputCont}>
+          <span className={styles.searchInputLabel}>FIND PLEDGER</span>
+          <input
+            type="text"
+            placeholder="Search ..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className={styles.searchInput}
+            aria-label="Search by name, wallet, or twitter"
+            disabled={isFetchingPledgers} // Disable during loading
+          />
+        </div>
 
-      {isLoading ? (
-        <p className={styles.loadingMessage}>Loading data...</p>
-      ) : (
+        <div className={styles.filterToggle}>
+          <label>
+            <input
+              type="checkbox"
+              checked={showBrokenOnly}
+              onChange={(e) => setShowBrokenOnly(e.target.checked)}
+              disabled={isFetchingPledgers}
+            />
+            Show Broken Only
+          </label>
+        </div>
+
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
@@ -89,14 +129,16 @@ const PledgeTable: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item, index) => (
+              {pledgers.map((item, index) => (
                 <tr
                   key={index}
                   className={`${styles.tableRow} ${
-                    item.pledgedTokens < 1000 ? styles.highlight : ""
-                  }`}
+                    isPledgeBroken(item.status) ? styles.rowBroken : ""
+                  } ${isPledgeActive(item.status) ? styles.rowActive : ""}`}
                 >
-                  <td className={styles.tableCell}>{index + 1}</td>
+                  <td className={styles.tableCell}>
+                    {ITEMS_PER_PAGE * (pledgersListPage - 1) + index + 1}
+                  </td>
                   <td className={styles.tableCell}>
                     <a
                       href={`https://etherscan.io/address/${item.wallet}`}
@@ -106,27 +148,31 @@ const PledgeTable: React.FC = () => {
                       {item.wallet}
                     </a>
                   </td>
-                  <td className={styles.tableCell}>{item.name}</td>
+                  <td className={styles.tableCell}>{item.name || ""}</td>
                   <td className={styles.tableCell}>
-                    <a
-                      href={`https://x.com/${item.twitter}`}
-                      target="blank"
-                      style={{ color: "rgb(17, 76, 134)" }}
-                    >
-                      {`@${item.twitter}`}
-                    </a>
+                    {item.twitter && (
+                      <a
+                        href={`https://x.com/${item.twitter}`}
+                        target="blank"
+                        style={{ color: "rgb(17, 76, 134)" }}
+                      >
+                        {`@${item.twitter}`}
+                      </a>
+                    )}
                   </td>
                   <td
                     className={styles.tableCell}
                     style={{ textAlign: "right" }}
                   >
-                    {parseInt(item.pledgedTokens?.toString()).toLocaleString()}
+                    {item.pledged
+                      ? parseInt(item.pledged?.toString()).toLocaleString()
+                      : ""}
                   </td>
                 </tr>
               ))}
-              {filteredData.length === 0 && (
+              {pledgers.length === 0 && (
                 <tr>
-                  <td colSpan={4} className={styles.noDataMessage}>
+                  <td colSpan={5} className={styles.noDataMessage}>
                     No results found.
                   </td>
                 </tr>
@@ -134,8 +180,21 @@ const PledgeTable: React.FC = () => {
             </tbody>
           </table>
         </div>
-      )}
-    </div>
+
+        <ReactPaginate
+          pageCount={Math.ceil(totalPledgersCount / ITEMS_PER_PAGE)}
+          pageRangeDisplayed={2}
+          marginPagesDisplayed={1}
+          onPageChange={handlePageChange}
+          containerClassName={styles.paginationContainer}
+          activeClassName={styles.paginationActive}
+          disabledClassName={styles.paginationDisabled}
+          nextLabel="Next >"
+          previousLabel="< Previous"
+          breakLabel="..."
+        />
+      </div>
+    </LoadingOverlay>
   );
 };
 

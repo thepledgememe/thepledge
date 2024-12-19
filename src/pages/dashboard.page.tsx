@@ -6,13 +6,11 @@ import dashboardStyles from "./DashBoardPage.module.css";
 import Layout from "../components/Layout";
 
 const DashBoardPage: React.FC = () => {
-    return (
-        <Layout
-            description="Explore our goals, FAQs, and more on the home page."
-        >
-            <div className={styles.App}>
-            <div className={dashboardStyles.container}>
-                {/*<section className={dashboardStyles.section}>
+  return (
+    <Layout description="Explore our goals, FAQs, and more on the home page.">
+      <div className={styles.App}>
+        <div className={dashboardStyles.container}>
+          {/*<section className={dashboardStyles.section}>
                     <h2 className={dashboardStyles.sectionHeader}>Dashboard</h2>
                     <div className={dashboardStyles.chartContainer}>
                         <TokenAllocationChart />
@@ -23,18 +21,17 @@ const DashBoardPage: React.FC = () => {
                         <TokenPledgeLineChart />
                     </div>
                 </section>*/}
-                <section className={dashboardStyles.section}>
-                    <h2 className={dashboardStyles.sectionHeader}>Who has taken the pledge?</h2>
-                    <PledgeTable />
-                </section>
-                <p className={dashboardStyles.footerText}>
-                    YOUR WORD IS YOUR BOND
-                </p>
-            </div>
+          <section className={dashboardStyles.section}>
+            <h2 className={dashboardStyles.sectionHeader}>
+              Who has taken the pledge?
+            </h2>
+            <PledgeTable />
+          </section>
+          <p className={dashboardStyles.footerText}>YOUR WORD IS YOUR BOND</p>
         </div>
-        </Layout>
-       
-    );
+      </div>
+    </Layout>
+  );
 };
 
 export default DashBoardPage;

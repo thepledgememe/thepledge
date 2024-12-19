@@ -11,6 +11,7 @@ export interface Pledger {
 
 export interface PledgersResponse {
   data: Pledger[];
+  total: number;
 }
 
 export interface FetchPledgersParams {

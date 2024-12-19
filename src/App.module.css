@@ -27,7 +27,7 @@ section {
 }
 
 .textFooter {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-weight: 400;
   font-size: 33.09px;
   line-height: 48.81px;
@@ -76,7 +76,9 @@ section {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .navButton:hover,

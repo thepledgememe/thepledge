@@ -20,6 +20,18 @@
   display: block;
 }
 
+.rowActive {
+  td {
+    background-color: rgba(144, 238, 144, 0.3); /* Light green */
+  }
+}
+
+.rowBroken {
+  td {
+    background-color: rgba(255, 99, 71, 0.3); /* Light red */
+  }
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -71,7 +83,6 @@
   width: 150px;
 }
 
-
 .container {
   width: 80%;
   margin: 0 auto;
@@ -100,7 +111,7 @@
 
 .searchInputLabel {
   margin-right: 20px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .tableWrapper {
@@ -123,7 +134,7 @@
 .tableHeaderCell {
   padding: 10px;
   font-weight: bold;
-  width: 120px;;
+  width: 120px;
   border-bottom: 2px solid #ccc;
 }
 
@@ -156,6 +167,90 @@
   font-size: 14px;
 }
 
+/* Pagination Container */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 10px 0;
+  gap: 8px;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.paginationContainer li a {
+  padding: 15px 10px;
+}
+
+.paginationContainer li {
+  display: inline-block;  
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #007bff;
+  padding: 5px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.paginationContainer li:hover {
+  background-color: #f0f0f0;
+}
+
+.paginationActive {
+  background-color: #007bffa0;
+  a {
+    color: #ffffff !important;
+  }
+  font-weight: bold;
+  pointer-events: none; /* Disable clicking on the active page */
+}
+
+.paginationDisabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Loader Alignment */
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Table Wrapper for Loader Overlay */
+.tableWrapper {
+  position: relative; /* Allows positioning the loader above the table */
+  min-height: 300px; /* Ensures consistent height while loading */
+}
+
 /* Hover and clickable effect for rows */
 .tableRow:hover {
   background: #f1f1f1;
@@ -164,7 +259,6 @@
 
 /* Responsive table design */
 @media (max-width: 768px) {
-
   .tableHeaderCell,
   .tableCell {
     font-size: 12px;

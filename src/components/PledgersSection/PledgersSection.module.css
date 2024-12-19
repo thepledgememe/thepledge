@@ -3,7 +3,7 @@
   color: #003366;
 }
 
-.pledgersSection h2{
+.pledgersSection h2 {
   color: #003366;
   font-size: 36px;
   line-height: 40px;
@@ -18,8 +18,8 @@
   font-weight: 500;
 }
 
-.chart{
-  display:flex ;
+.chart {
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;

@@ -1,17 +1,15 @@
-import { http, createConfig } from 'wagmi'
-import { injected } from 'wagmi/connectors'
+import { http, createConfig } from "wagmi";
+import { injected } from "wagmi/connectors";
 import { mainnet, sepolia } from "wagmi/chains";
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
-  connectors: [
-    injected(),
-  ],
+  connectors: [injected()],
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
   },
-})
+});
 
 export const appConfig = {
   [mainnet.id]: {

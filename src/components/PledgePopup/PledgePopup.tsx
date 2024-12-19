@@ -23,13 +23,13 @@ const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
         return;
       }
       toast.success("Pledge confirmed successfully! 🎉");
-      if (!!onClose) {
+      if (onClose) {
         onClose();
       }
     } finally {
       setIsConfirming(false);
     }
-  }, []);
+  }, [pledgeTokens, onClose]);
 
   if (!isOpen) return null;
 
@@ -40,7 +40,8 @@ const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
           <LoadingSpinner />
           <p>Please Wait...</p>
         </div>
-      </div>)
+      </div>
+    );
   }
 
   return (
@@ -49,17 +50,27 @@ const PledgePopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
         <button className={styles.closeButton} onClick={onClose}>
           X
         </button>
-        <p className={styles.text}>YOU ARE ADDING {availableToPLedge.dp(0).toString()} TO YOUR PLEDGE</p>
+        <p className={styles.text}>
+          YOU ARE ADDING {availableToPLedge.dp(0).toString()} TO YOUR PLEDGE
+        </p>
         {/*<input
           type="text"
           placeholder="Add your twitter handle here..."
           className={styles.twitterInput}
         />*/}
-        <button className={styles.confirmButton} disabled={isConfirming || availableToPLedge.isZero()}
-          onClick={confirmPledge}>CONFIRM</button>
-        {isConnected && <p className={styles.connectedAddress}>
-          You are connected with <span>{`${address.slice(0, 6)}...${address.slice(-4)}`}</span>
-        </p>}
+        <button
+          className={styles.confirmButton}
+          disabled={isConfirming || availableToPLedge.isZero()}
+          onClick={confirmPledge}
+        >
+          CONFIRM
+        </button>
+        {isConnected && (
+          <p className={styles.connectedAddress}>
+            You are connected with{" "}
+            <span>{`${address.slice(0, 6)}...${address.slice(-4)}`}</span>
+          </p>
+        )}
       </div>
     </div>
   );

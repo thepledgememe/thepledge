@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import styles from '../App.module.css';
+import styles from "../App.module.css";
 import { ToastContainer } from "react-toastify";
 import HexDisplay from "./HexDisplay/Hex";
 
@@ -22,9 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ title, description, children }) => {
       </Helmet>
       <HexDisplay />
       <Header />
-      <main className={styles.containerHome}>
-        {children}
-      </main>
+      <main className={styles.containerHome}>{children}</main>
       <Footer />
     </div>
   );
