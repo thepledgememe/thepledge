@@ -126,7 +126,7 @@ const PledgeTable: React.FC = () => {
                 <th className={styles.tableHeaderCell}>AMOUNT HELD</th>
                 <th className={styles.tableHeaderCell}>AMOUNT PLEDGED</th>
                 <th className={styles.tableHeaderCell}>
-                  UPHOLDING DAYS / DATE OF BREAK
+                  UPHOLDING DAYS
                 </th>
               </tr>
             </thead>
@@ -143,7 +143,7 @@ const PledgeTable: React.FC = () => {
                       <a
                         href={`https://x.com/${item.twitter}`}
                         target="blank"
-                        style={{ color: "rgb(17, 76, 134)" }}
+                        style={{ color: "rgb(17, 76, 134)", fontWeight: "bold" }}
                       >
                         {`@${item.twitter}`}
                       </a>
@@ -166,7 +166,7 @@ const PledgeTable: React.FC = () => {
                       ? pledgerAmountToNumber(
                           item.balance?.toString()
                         ).toLocaleString()
-                      : ""}
+                      : "0"}
                   </td>
                   <td
                     className={styles.tableCell}
@@ -183,7 +183,7 @@ const PledgeTable: React.FC = () => {
                     style={{ textAlign: "right" }}
                   >
                     {item.status === STATUS_BROKEN
-                      ? new Date(item.brokenTimestamp).toLocaleDateString()
+                      ? "Broken"
                       : item.status === "active"
                         ? calculateDaysSince(item.lastPledgedAtTimestamp)
                         : ""}
