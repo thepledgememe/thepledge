@@ -19,7 +19,6 @@ const PledgeTable: React.FC = () => {
       isFetchingPledgers,
       pledgers,
       fetchPledgers,
-      pledgersListPage,
       pledgersFilters,
       totalPledgersCount,
     },

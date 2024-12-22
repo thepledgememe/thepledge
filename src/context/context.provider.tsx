@@ -23,9 +23,6 @@ import { PledgersService } from "../services/PledgersService";
 import { Pledger } from "../interface/Pledger";
 import supabaseClient from "../services/supabase";
 
-const API_URL =
-  "https://api.supabase.com/platform/projects/odvdrtzecnmqbzyutvyg/api/graphql";
-
 type PledgersData = {
   isFetchingPledgers: boolean;
   pledgers: Pledger[];
