@@ -7,6 +7,9 @@ export interface Pledger {
   status?: string;
   createdAt?: string;
   updatedAt?: string;
+  lastPledgedAtTimestamp?: string;
+  brokenHash?: string;
+  brokenTimestamp?: string;
 }
 
 export interface PledgersResponse {

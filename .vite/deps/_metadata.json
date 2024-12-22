@@ -1,8 +1,220 @@
 {
-  "hash": "b13d43aa",
+  "hash": "8c4475cd",
   "configHash": "d37d686e",
-  "lockfileHash": "0023e257",
-  "browserHash": "e851d34e",
-  "optimized": {},
-  "chunks": {}
+  "lockfileHash": "11c993bb",
+  "browserHash": "ef84e75d",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "c5a78332",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "ee6d1ee6",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "6f4ce49d",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "4a7a92ce",
+      "needsInterop": false
+    },
+    "wagmi": {
+      "src": "../../node_modules/wagmi/dist/esm/exports/index.js",
+      "file": "wagmi.js",
+      "fileHash": "1fd038bd",
+      "needsInterop": false
+    },
+    "@tanstack/react-query": {
+      "src": "../../node_modules/@tanstack/react-query/build/modern/index.js",
+      "file": "@tanstack_react-query.js",
+      "fileHash": "80d97d7d",
+      "needsInterop": false
+    },
+    "react-helmet": {
+      "src": "../../node_modules/react-helmet/es/Helmet.js",
+      "file": "react-helmet.js",
+      "fileHash": "ae11bec9",
+      "needsInterop": false
+    },
+    "react-toastify": {
+      "src": "../../node_modules/react-toastify/dist/react-toastify.esm.mjs",
+      "file": "react-toastify.js",
+      "fileHash": "ecb74df8",
+      "needsInterop": false
+    },
+    "bignumber.js": {
+      "src": "../../node_modules/bignumber.js/bignumber.mjs",
+      "file": "bignumber__js.js",
+      "fileHash": "38a426a9",
+      "needsInterop": false
+    },
+    "wagmi/connectors": {
+      "src": "../../node_modules/wagmi/dist/esm/exports/connectors.js",
+      "file": "wagmi_connectors.js",
+      "fileHash": "b81f3699",
+      "needsInterop": false
+    },
+    "wagmi/chains": {
+      "src": "../../node_modules/wagmi/dist/esm/exports/chains.js",
+      "file": "wagmi_chains.js",
+      "fileHash": "4ddb0ead",
+      "needsInterop": false
+    },
+    "react-loading-overlay-ts": {
+      "src": "../../node_modules/react-loading-overlay-ts/dist/react-loading-overlay-ts.esm.js",
+      "file": "react-loading-overlay-ts.js",
+      "fileHash": "45903c61",
+      "needsInterop": false
+    },
+    "react-paginate": {
+      "src": "../../node_modules/react-paginate/dist/react-paginate.js",
+      "file": "react-paginate.js",
+      "fileHash": "814fdf87",
+      "needsInterop": true
+    },
+    "lodash": {
+      "src": "../../node_modules/lodash/lodash.js",
+      "file": "lodash.js",
+      "fileHash": "792dcd15",
+      "needsInterop": true
+    },
+    "chart.js": {
+      "src": "../../node_modules/chart.js/dist/chart.js",
+      "file": "chart__js.js",
+      "fileHash": "a9a879a5",
+      "needsInterop": false
+    },
+    "chartjs-plugin-datalabels": {
+      "src": "../../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.esm.js",
+      "file": "chartjs-plugin-datalabels.js",
+      "fileHash": "0f14362e",
+      "needsInterop": false
+    },
+    "@supabase/supabase-js": {
+      "src": "../../node_modules/@supabase/supabase-js/dist/module/index.js",
+      "file": "@supabase_supabase-js.js",
+      "fileHash": "670689f7",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "metamask-sdk-E7RYCN2W": {
+      "file": "metamask-sdk-E7RYCN2W.js"
+    },
+    "esm-ZTNY5LKQ": {
+      "file": "esm-ZTNY5LKQ.js"
+    },
+    "dist-A4QA37AN": {
+      "file": "dist-A4QA37AN.js"
+    },
+    "chunk-5BGDNV5H": {
+      "file": "chunk-5BGDNV5H.js"
+    },
+    "dist-2G34OTVH": {
+      "file": "dist-2G34OTVH.js"
+    },
+    "dist-M6QGJZ3T": {
+      "file": "dist-M6QGJZ3T.js"
+    },
+    "chunk-35YKZJSE": {
+      "file": "chunk-35YKZJSE.js"
+    },
+    "index.es-A6DLIPYZ": {
+      "file": "index__es-A6DLIPYZ.js"
+    },
+    "browser-XQGPR2MC": {
+      "file": "browser-XQGPR2MC.js"
+    },
+    "browser-5OUFWS7N": {
+      "file": "browser-5OUFWS7N.js"
+    },
+    "secp256k1-EMUH2JBB": {
+      "file": "secp256k1-EMUH2JBB.js"
+    },
+    "ccip-M2VECILM": {
+      "file": "ccip-M2VECILM.js"
+    },
+    "native-YK5DVGJN": {
+      "file": "native-YK5DVGJN.js"
+    },
+    "chunk-VJN46J2W": {
+      "file": "chunk-VJN46J2W.js"
+    },
+    "dist-77MMOYDX": {
+      "file": "dist-77MMOYDX.js"
+    },
+    "dist-Q3VFUJQK": {
+      "file": "dist-Q3VFUJQK.js"
+    },
+    "chunk-WXCVMAPI": {
+      "file": "chunk-WXCVMAPI.js"
+    },
+    "chunk-Y3KXDRAS": {
+      "file": "chunk-Y3KXDRAS.js"
+    },
+    "chunk-VASHWK2S": {
+      "file": "chunk-VASHWK2S.js"
+    },
+    "chunk-5XK4J74S": {
+      "file": "chunk-5XK4J74S.js"
+    },
+    "chunk-PX4GNW4C": {
+      "file": "chunk-PX4GNW4C.js"
+    },
+    "chunk-E6U4JRR4": {
+      "file": "chunk-E6U4JRR4.js"
+    },
+    "chunk-FC35INCC": {
+      "file": "chunk-FC35INCC.js"
+    },
+    "chunk-2JZJ2OCM": {
+      "file": "chunk-2JZJ2OCM.js"
+    },
+    "chunk-SAU2OLYI": {
+      "file": "chunk-SAU2OLYI.js"
+    },
+    "chunk-OZ6CQKAS": {
+      "file": "chunk-OZ6CQKAS.js"
+    },
+    "chunk-PNII7RQZ": {
+      "file": "chunk-PNII7RQZ.js"
+    },
+    "chunk-YQJKFRJW": {
+      "file": "chunk-YQJKFRJW.js"
+    },
+    "chunk-TLBZOR3W": {
+      "file": "chunk-TLBZOR3W.js"
+    },
+    "chunk-TYUC4F35": {
+      "file": "chunk-TYUC4F35.js"
+    },
+    "chunk-QRPEEWUD": {
+      "file": "chunk-QRPEEWUD.js"
+    },
+    "chunk-DPMMV6EV": {
+      "file": "chunk-DPMMV6EV.js"
+    },
+    "chunk-DSWFES7F": {
+      "file": "chunk-DSWFES7F.js"
+    },
+    "chunk-ITDS4BQN": {
+      "file": "chunk-ITDS4BQN.js"
+    },
+    "chunk-ZTBOFYUR": {
+      "file": "chunk-ZTBOFYUR.js"
+    },
+    "chunk-ONY6HBPH": {
+      "file": "chunk-ONY6HBPH.js"
+    }
+  }
 }

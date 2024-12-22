@@ -21,9 +21,10 @@ import BigNumber from "bignumber.js";
 import { pledgeAbi } from "../web3/abi";
 import { PledgersService } from "../services/PledgersService";
 import { Pledger } from "../interface/Pledger";
+import supabaseClient from "../services/supabase";
 
 const API_URL =
-  "https://odvdrtzecnmqbzyutvyg.supabase.co/functions/v1/get-pledgers";
+  "https://api.supabase.com/platform/projects/odvdrtzecnmqbzyutvyg/api/graphql";
 
 type PledgersData = {
   isFetchingPledgers: boolean;
@@ -83,8 +84,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [isFetchingPledgers, setIsFetchingPledgers] = useState(false);
 
   const pledgersService = useMemo(
-    () => new PledgersService(API_URL), // Replace with your API URL
-    [],
+    () => new PledgersService(supabaseClient),
+    []
   );
 
   const fetchPledgers = useCallback(
@@ -119,7 +120,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setIsFetchingPledgers(false);
       }
     },
-    [pledgersService],
+    [pledgersService]
   );
 
   // Existing logic for token operations and balance
@@ -141,7 +142,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const connectWallet = () => {
     const injectedConnector = connectors.find(
-      (connector) => connector.id === "injected",
+      (connector) => connector.id === "injected"
     );
     if (injectedConnector) {
       connect({ connector: injectedConnector });

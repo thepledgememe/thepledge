@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 export function timeLeftBetweenDates(startDate: Date, endDate: Date): string {
   // Convert dates to timestamps
   const start = startDate.getTime();
@@ -26,4 +28,19 @@ export function timeLeftBetweenDates(startDate: Date, endDate: Date): string {
   } else {
     return `${seconds} second${seconds === 1 ? "" : "s"}`;
   }
+}
+
+export function pledgerAmountToNumber(pledgerAmount: string | number): number {
+  return BigNumber(pledgerAmount).div(10 ** 18).dp(0).toNumber();
+}
+
+export function calculateDaysSince(date) {
+  const givenDate: Date = new Date(date);
+  const currentDate: Date = new Date();
+
+  const timeDifference = currentDate.getTime() - givenDate.getTime();
+
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
 }

@@ -9,6 +9,7 @@ import {
   isPledgeActive,
   isPledgeBroken,
 } from "../../helpers/pledge-status";
+import { calculateDaysSince, pledgerAmountToNumber } from "../../helpers/common";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -38,7 +39,7 @@ const PledgeTable: React.FC = () => {
         },
       });
     }, 500),
-    [showBrokenOnly, fetchPledgers, fetchPledgers],
+    [showBrokenOnly, fetchPledgers, fetchPledgers]
   );
 
   // Update searchQuery with debounce
@@ -121,11 +122,13 @@ const PledgeTable: React.FC = () => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.tableHeader}>
-                <th className={styles.tableHeaderCellSmall}>#</th>
-                <th className={styles.tableHeaderCell}>Wallet Address</th>
-                <th className={styles.tableHeaderCell}>Name</th>
-                <th className={styles.tableHeaderCell}>Twitter Handle</th>
-                <th className={styles.tableHeaderCell}>Pledged Tokens</th>
+                <th className={styles.tableHeaderCell}>TWITTER HANDLE</th>
+                <th className={styles.tableHeaderCell}>WALLET ADDRESS</th>
+                <th className={styles.tableHeaderCell}>AMOUNT HELD</th>
+                <th className={styles.tableHeaderCell}>AMOUNT PLEDGED</th>
+                <th className={styles.tableHeaderCell}>
+                  UPHOLDING DAYS / DATE OF BREAK
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -137,19 +140,6 @@ const PledgeTable: React.FC = () => {
                   } ${isPledgeActive(item.status) ? styles.rowActive : ""}`}
                 >
                   <td className={styles.tableCell}>
-                    {ITEMS_PER_PAGE * (pledgersListPage - 1) + index + 1}
-                  </td>
-                  <td className={styles.tableCell}>
-                    <a
-                      href={`https://etherscan.io/address/${item.wallet}`}
-                      target="blank"
-                      style={{ color: "rgb(17, 76, 134)" }}
-                    >
-                      {item.wallet}
-                    </a>
-                  </td>
-                  <td className={styles.tableCell}>{item.name || ""}</td>
-                  <td className={styles.tableCell}>
                     {item.twitter && (
                       <a
                         href={`https://x.com/${item.twitter}`}
@@ -160,13 +150,44 @@ const PledgeTable: React.FC = () => {
                       </a>
                     )}
                   </td>
+                  <td className={styles.tableCell}>
+                    <a
+                      href={`https://etherscan.io/address/${item.wallet}`}
+                      target="blank"
+                      style={{ color: "rgb(17, 76, 134)" }}
+                    >
+                      {item.wallet}
+                    </a>
+                  </td>
+                  <td
+                    className={styles.tableCell}
+                    style={{ textAlign: "right" }}
+                  >
+                    {item.balance
+                      ? pledgerAmountToNumber(
+                          item.balance?.toString()
+                        ).toLocaleString()
+                      : ""}
+                  </td>
                   <td
                     className={styles.tableCell}
                     style={{ textAlign: "right" }}
                   >
                     {item.pledged
-                      ? parseInt(item.pledged?.toString()).toLocaleString()
+                      ? pledgerAmountToNumber(
+                          item.pledged?.toString()
+                        ).toLocaleString()
                       : ""}
+                  </td>
+                  <td
+                    className={styles.tableCell}
+                    style={{ textAlign: "right" }}
+                  >
+                    {item.status === STATUS_BROKEN
+                      ? new Date(item.brokenTimestamp).toLocaleDateString()
+                      : item.status === "active"
+                        ? calculateDaysSince(item.lastPledgedAtTimestamp)
+                        : ""}
                   </td>
                 </tr>
               ))}
