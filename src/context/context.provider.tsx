@@ -35,7 +35,7 @@ type PledgersData = {
     filters?: Record<string, any>;
     pledgersListPage?: number;
     limit?: number;
-    sort: { key: string; direction: "asc" | "desc" } | undefined;
+    sort?: { key: string; direction: "asc" | "desc" } | undefined;
   }) => Promise<void>;
   pledgersListPage: number;
   pledgersFilters: { key?: string; status?: string };
