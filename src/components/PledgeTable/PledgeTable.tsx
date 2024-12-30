@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import LoadingOverlay from "react-loading-overlay-ts";
 import ReactPaginate from "react-paginate";
 import { debounce } from "lodash";
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa"; // Import sorting icons
 import styles from "./PledgeTable.module.css";
 import { useAppContext } from "../../context/context.provider";
 import {
@@ -9,7 +10,10 @@ import {
   isPledgeActive,
   isPledgeBroken,
 } from "../../helpers/pledge-status";
-import { calculateDaysSince, pledgerAmountToNumber } from "../../helpers/common";
+import {
+  calculateDaysSince,
+  pledgerAmountToNumber,
+} from "../../helpers/common";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -26,6 +30,10 @@ const PledgeTable: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showBrokenOnly, setShowBrokenOnly] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: "asc" | "desc" | null;
+  }>({ key: "", direction: null });
 
   const debouncedSearch = useCallback(
     debounce((value) => {
@@ -36,9 +44,12 @@ const PledgeTable: React.FC = () => {
           key: value,
           status: showBrokenOnly ? STATUS_BROKEN : undefined,
         },
+        sort: sortConfig.key
+          ? { key: sortConfig.key, direction: sortConfig.direction }
+          : undefined,
       });
     }, 500),
-    [showBrokenOnly, fetchPledgers, fetchPledgers]
+    [showBrokenOnly, fetchPledgers, sortConfig],
   );
 
   // Update searchQuery with debounce
@@ -46,6 +57,21 @@ const PledgeTable: React.FC = () => {
     const value = e.target.value;
     setSearchQuery(value);
     debouncedSearch(value);
+  };
+
+  const handleSort = (key: string) => {
+    setSortConfig((prev) => {
+      const newDirection =
+        prev.key === key && prev.direction === "asc" ? "desc" : "asc";
+      return { key, direction: newDirection };
+    });
+  };
+
+  const getSortIcon = (key: string) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />;
+    }
+    return <FaSort />;
   };
 
   useEffect(() => {
@@ -56,14 +82,20 @@ const PledgeTable: React.FC = () => {
         key: searchQuery,
         status: showBrokenOnly ? STATUS_BROKEN : undefined,
       },
+      sort: sortConfig.key
+        ? { key: sortConfig.key, direction: sortConfig.direction }
+        : undefined,
     });
-  }, [showBrokenOnly]);
+  }, [showBrokenOnly, sortConfig]);
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     fetchPledgers({
       filters: pledgersFilters,
       pledgersListPage: selected + 1,
       limit: ITEMS_PER_PAGE,
+      sort: sortConfig.key
+        ? { key: sortConfig.key, direction: sortConfig.direction }
+        : undefined,
     });
   };
 
@@ -75,7 +107,7 @@ const PledgeTable: React.FC = () => {
       styles={{
         overlay: (base) => ({
           ...base,
-          background: "rgba(200, 200, 200, 0.3)", // Semi-transparent white
+          background: "rgba(200, 200, 200, 0.3)",
           transition: "opacity 0.5s ease",
           borderRadius: "40px",
         }),
@@ -101,7 +133,7 @@ const PledgeTable: React.FC = () => {
             onChange={handleSearchChange}
             className={styles.searchInput}
             aria-label="Search by name, wallet, or twitter"
-            disabled={isFetchingPledgers} // Disable during loading
+            disabled={isFetchingPledgers}
           />
         </div>
 
@@ -121,12 +153,45 @@ const PledgeTable: React.FC = () => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.tableHeader}>
-                <th className={styles.tableHeaderCell}>TWITTER HANDLE</th>
-                <th className={styles.tableHeaderCell}>WALLET ADDRESS</th>
-                <th className={styles.tableHeaderCell}>AMOUNT HELD</th>
-                <th className={styles.tableHeaderCell}>AMOUNT PLEDGED</th>
-                <th className={styles.tableHeaderCell}>
-                  UPHOLDING DAYS
+                <th
+                  className={styles.tableHeaderCell}
+                  onClick={() => handleSort("twitter")}
+                >
+                  <div className={styles.tableHeaderWrapper}>
+                    TWITTER HANDLE {getSortIcon("twitter")}
+                  </div>
+                </th>
+                <th
+                  className={styles.tableHeaderCell}
+                  onClick={() => handleSort("wallet")}
+                >
+                  <div className={styles.tableHeaderWrapper}>
+                    WALLET ADDRESS {getSortIcon("wallet")}
+                  </div>
+                </th>
+                <th
+                  className={styles.tableHeaderCell}
+                  onClick={() => handleSort("balance")}
+                >
+                  <div className={styles.tableHeaderWrapper}>
+                    AMOUNT HELD {getSortIcon("balance")}
+                  </div>
+                </th>
+                <th
+                  className={styles.tableHeaderCell}
+                  onClick={() => handleSort("pledged")}
+                >
+                  <div className={styles.tableHeaderWrapper}>
+                    AMOUNT PLEDGED {getSortIcon("pledged")}
+                  </div>
+                </th>
+                <th
+                  className={styles.tableHeaderCell}
+                  onClick={() => handleSort("last_pledged_at_timestamp")}
+                >
+                  <div className={styles.tableHeaderWrapper}>
+                    UPHOLDING DAYS {getSortIcon("upholdingDays")}
+                  </div>
                 </th>
               </tr>
             </thead>
@@ -143,7 +208,10 @@ const PledgeTable: React.FC = () => {
                       <a
                         href={`https://x.com/${item.twitter}`}
                         target="blank"
-                        style={{ color: "rgb(17, 76, 134)", fontWeight: "bold" }}
+                        style={{
+                          color: "rgb(17, 76, 134)",
+                          fontWeight: "bold",
+                        }}
                       >
                         {`@${item.twitter}`}
                       </a>
@@ -164,7 +232,7 @@ const PledgeTable: React.FC = () => {
                   >
                     {item.balance
                       ? pledgerAmountToNumber(
-                          item.balance?.toString()
+                          item.balance?.toString(),
                         ).toLocaleString()
                       : "0"}
                   </td>
@@ -174,7 +242,7 @@ const PledgeTable: React.FC = () => {
                   >
                     {item.pledged
                       ? pledgerAmountToNumber(
-                          item.pledged?.toString()
+                          item.pledged?.toString(),
                         ).toLocaleString()
                       : ""}
                   </td>

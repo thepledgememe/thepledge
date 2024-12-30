@@ -30,10 +30,12 @@ type PledgersData = {
     filters,
     pledgersListPage,
     limit,
+    sort,
   }: {
     filters?: Record<string, any>;
     pledgersListPage?: number;
     limit?: number;
+    sort: { key: string; direction: "asc" | "desc" } | undefined;
   }) => Promise<void>;
   pledgersListPage: number;
   pledgersFilters: { key?: string; status?: string };
@@ -82,7 +84,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const pledgersService = useMemo(
     () => new PledgersService(supabaseClient),
-    []
+    [],
   );
 
   const fetchPledgers = useCallback(
@@ -90,10 +92,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       filters,
       pledgersListPage,
       limit,
+      sort,
     }: {
       filters: Record<string, any>;
       pledgersListPage?: number;
       limit: number;
+      sort?: { key: string; direction: "asc" | "desc" } | undefined;
     }) => {
       limit = limit || 10;
       pledgersListPage = pledgersListPage || 1;
@@ -105,6 +109,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           ...filersSafe,
           limit,
           offset: (pledgersListPage - 1) * limit,
+          sort,
         };
         const response = await pledgersService.fetchPledgers(params);
         setTotalPledgersCount(response.total);
@@ -117,7 +122,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setIsFetchingPledgers(false);
       }
     },
-    [pledgersService]
+    [pledgersService],
   );
 
   // Existing logic for token operations and balance
@@ -139,7 +144,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const connectWallet = () => {
     const injectedConnector = connectors.find(
-      (connector) => connector.id === "injected"
+      (connector) => connector.id === "injected",
     );
     if (injectedConnector) {
       connect({ connector: injectedConnector });

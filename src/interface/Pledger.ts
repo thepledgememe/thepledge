@@ -22,4 +22,5 @@ export interface FetchPledgersParams {
   status?: string; // Filter by status
   limit?: number; // Number of records per page
   offset?: number; // Starting index for pagination
+  sort?: { key: string; direction: string }; // Sort by column
 }

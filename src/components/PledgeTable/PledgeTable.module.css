@@ -54,6 +54,12 @@
   text-align: center;
 }
 
+.tableHeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .tableHeaderCell {
   border-bottom: 1px solid #ccc;
   padding: 0.5rem 1rem;
@@ -93,7 +99,7 @@
 .container {
   width: 80%;
   margin: 0 auto;
-  color:rgb(17, 76, 134);
+  color: rgb(17, 76, 134);
 }
 
 .searchInput {
@@ -141,7 +147,7 @@
   font-weight: bold;
   width: 120px;
   border-bottom: 2px solid #ccc;
-  color:rgb(17, 76, 134);
+  color: rgb(17, 76, 134);
 }
 
 /* .tableRow:nth-child(even) {
@@ -193,7 +199,7 @@
 }
 
 .paginationContainer li {
-  display: inline-block;  
+  display: inline-block;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;

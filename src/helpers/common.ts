@@ -31,7 +31,10 @@ export function timeLeftBetweenDates(startDate: Date, endDate: Date): string {
 }
 
 export function pledgerAmountToNumber(pledgerAmount: string | number): number {
-  return BigNumber(pledgerAmount).div(10 ** 18).dp(0).toNumber();
+  return BigNumber(pledgerAmount)
+    .div(10 ** 18)
+    .dp(0)
+    .toNumber();
 }
 
 export function calculateDaysSince(date) {
