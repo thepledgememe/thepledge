@@ -6,7 +6,7 @@ export const config = createConfig({
   chains: [mainnet, sepolia],
   connectors: [injected()],
   transports: {
-    [mainnet.id]: http(),
+    [mainnet.id]: http("https://eth.drpc.org"),
     [sepolia.id]: http(),
   },
 });

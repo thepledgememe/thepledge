@@ -168,16 +168,21 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     return true;
   }, [isConnected, connect, tokenAddress, pledgeAbi, address, chainId]);
 
-  const { data: pledgedAmountRow } = useReadContract({
-    address: tokenAddress,
-    abi: pledgeAbi,
-    account: address,
-    functionName: "getPledgedBalance",
-    args: [address],
-    query: {
-      enabled: !!address,
+  const { data: pledgedAmountRow, error: pledgedAmountError } = useReadContract(
+    {
+      address: tokenAddress,
+      abi: pledgeAbi,
+      account: address,
+      functionName: "getPledgedBalance",
+      args: [address],
+      query: {
+        enabled: !!address,
+      },
     },
-  });
+  );
+  if (pledgedAmountError) {
+    console.log("pledgedAmountError: ", pledgedAmountError);
+  }
 
   const { data: pledgeAvailableToSellRow } = useReadContract({
     address: tokenAddress,
