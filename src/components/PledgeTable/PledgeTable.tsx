@@ -6,6 +6,7 @@ import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa"; // Import sorting
 import styles from "./PledgeTable.module.css";
 import { useAppContext } from "../../context/context.provider";
 import {
+  STATUS_ACTIVE,
   STATUS_BROKEN,
   isPledgeActive,
   isPledgeBroken,
@@ -30,6 +31,7 @@ const PledgeTable: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showBrokenOnly, setShowBrokenOnly] = useState(false);
+  const [showActiveOnly, setActiveOnly] = useState(true);
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: "asc" | "desc" | null;
@@ -37,19 +39,25 @@ const PledgeTable: React.FC = () => {
 
   const debouncedSearch = useCallback(
     debounce((value) => {
+      let status = "";
+      if (showBrokenOnly) {
+        status = STATUS_BROKEN;
+      } else if (showActiveOnly) {
+        status = STATUS_ACTIVE;
+      }
       fetchPledgers({
         pledgersListPage: 1,
         limit: ITEMS_PER_PAGE,
         filters: {
           key: value,
-          status: showBrokenOnly ? STATUS_BROKEN : undefined,
+          status,
         },
         sort: sortConfig.key
           ? { key: sortConfig.key, direction: sortConfig.direction }
           : undefined,
       });
-    }, 500),
-    [showBrokenOnly, fetchPledgers, sortConfig],
+    }, 1200),
+    [showBrokenOnly, showActiveOnly, fetchPledgers, sortConfig],
   );
 
   // Update searchQuery with debounce
@@ -75,18 +83,24 @@ const PledgeTable: React.FC = () => {
   };
 
   useEffect(() => {
+    let status = "";
+    if (showBrokenOnly) {
+      status = STATUS_BROKEN;
+    } else if (showActiveOnly) {
+      status = STATUS_ACTIVE;
+    }
     fetchPledgers({
       pledgersListPage: 1,
       limit: ITEMS_PER_PAGE,
       filters: {
         key: searchQuery,
-        status: showBrokenOnly ? STATUS_BROKEN : undefined,
+        status,
       },
       sort: sortConfig.key
         ? { key: sortConfig.key, direction: sortConfig.direction }
         : undefined,
     });
-  }, [showBrokenOnly, sortConfig]);
+  }, [showBrokenOnly, showActiveOnly, sortConfig]);
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     fetchPledgers({
@@ -97,6 +111,11 @@ const PledgeTable: React.FC = () => {
         ? { key: sortConfig.key, direction: sortConfig.direction }
         : undefined,
     });
+  };
+
+  const setStatus = (broken: boolean, active: boolean) => {
+    setShowBrokenOnly(broken);
+    setActiveOnly(active);
   };
 
   return (
@@ -137,16 +156,30 @@ const PledgeTable: React.FC = () => {
           />
         </div>
 
-        <div className={styles.filterToggle}>
-          <label>
-            <input
-              type="checkbox"
-              checked={showBrokenOnly}
-              onChange={(e) => setShowBrokenOnly(e.target.checked)}
-              disabled={isFetchingPledgers}
-            />
-            Show Broken Only
-          </label>
+        <div className={styles.filterCont}>
+          <div className={styles.filterToggle}>
+            <label>
+              <input
+                type="checkbox"
+                checked={showActiveOnly}
+                onChange={(e) => setStatus(false, e.target.checked)}
+                disabled={isFetchingPledgers}
+              />
+              Active
+            </label>
+          </div>
+
+          <div className={styles.filterToggle}>
+            <label>
+              <input
+                type="checkbox"
+                checked={showBrokenOnly}
+                onChange={(e) => setStatus(e.target.checked, false)}
+                disabled={isFetchingPledgers}
+              />
+              Broken
+            </label>
+          </div>
         </div>
 
         <div className={styles.tableWrapper}>

@@ -60,6 +60,17 @@
   align-items: center;
 }
 
+.filterCont {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.filterToggle {
+  margin-right: 20px;
+}
+
 .tableHeaderCell {
   border-bottom: 1px solid #ccc;
   padding: 0.5rem 1rem;
