@@ -109,11 +109,11 @@ const DashBoardPage: React.FC = () => {
               Share of Tokens Pledged
             </h2>
             <div className={dashboardStyles.chartContainer}>
-              <Line data={chartData} options={chartOptions} />
+              <Line data={chartData} options={chartOptions as any} />
             </div>
           </section>
           <section className={dashboardStyles.section}>
-          <h2 className={dashboardStyles.chartTitle}>
+            <h2 className={dashboardStyles.chartTitle}>
               Who has taken the pledge?
             </h2>
             <PledgeTable />
