@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import styles from "../App.module.css";
-// import TokenPledgeLineChart from "../components/LineChart/LineChart";
 import PledgeTable from "../components/PledgeTable/PledgeTable";
 import dashboardStyles from "./DashBoardPage.module.css";
 import Layout from "../components/Layout";
 import { useAppContext } from "../context/context.provider";
 import { Line } from "react-chartjs-2";
-import "chartjs-plugin-datalabels";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -38,14 +36,25 @@ const DashBoardPage: React.FC = () => {
   }, [fetchPledgerCounts]);
 
   const chartData = {
-    labels: pledgerCounts.map((count) => count.updatedAt),
+    labels: pledgerCounts.map((count) => {
+      const date = new Date(count.updatedAt);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    }),
     datasets: [
       {
         label: "Pledger Counts",
-        data: pledgerCounts.map((count) => parseInt(count.count)),
+        data: pledgerCounts.map((count) => Number(count.count)), // Convert count to number
         fill: false,
-        borderColor: "#42A5F5",
-        tension: 0.1,
+        borderColor: "#002E5D",
+        backgroundColor: "#002E5D",
+        pointBackgroundColor: (context: any) =>
+          context.dataIndex === pledgerCounts.length - 1
+            ? "#FFD700"
+            : "#002E5D", // Highlight last point
+        pointRadius: (context: any) =>
+          context.dataIndex === pledgerCounts.length - 1 ? 8 : 4,
+        tension: 0.2, // Smoother curve
+        borderWidth: 2,
       },
     ],
   };
@@ -96,7 +105,9 @@ const DashBoardPage: React.FC = () => {
                     </div>
                 </section>*/}
           <section className={dashboardStyles.section}>
-            <h2 className={dashboardStyles.sectionHeader}>Dashboard</h2>
+            <h2 className={dashboardStyles.chartTitle}>
+              Share of Tokens Pledged
+            </h2>
             <div className={dashboardStyles.chartContainer}>
               <Line data={chartData} options={chartOptions} />
             </div>

@@ -143,10 +143,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         formattedStartDate,
         formattedEndDate,
       );
-      const groupedData = groupPledgerCountsByGranularity(
-        response.data.pledgerCounts,
-        "daily",
-      );
+      const groupedData = groupPledgerCountsByGranularity(response, "daily");
       setPledgerCounts(groupedData);
     } catch (error) {
       console.error("Failed to fetch pledger counts:", error);
@@ -264,7 +261,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }
 
   const totalPledge = balance;
-  console.log(pledgeAvailableToSellRow);
   return (
     <AppContext.Provider
       value={{

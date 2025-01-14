@@ -30,7 +30,10 @@ export const groupPledgerCountsByGranularity = (
       groupedCounts[groupKey] = { count: 0, updatedAt: groupKey };
     }
 
-    groupedCounts[groupKey].count += parseInt(count.count);
+    groupedCounts[groupKey].count = Math.max(
+      parseInt(count.count),
+      groupedCounts[groupKey].count,
+    );
   });
 
   return Object.values(groupedCounts).map((group) => ({
