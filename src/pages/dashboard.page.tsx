@@ -113,7 +113,7 @@ const DashBoardPage: React.FC = () => {
             </div>
           </section>
           <section className={dashboardStyles.section}>
-            <h2 className={dashboardStyles.sectionHeader}>
+          <h2 className={dashboardStyles.chartTitle}>
               Who has taken the pledge?
             </h2>
             <PledgeTable />
