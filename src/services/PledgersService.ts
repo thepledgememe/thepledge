@@ -1,5 +1,24 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { FetchPledgersParams, PledgersResponse } from "../interface/Pledger";
+import {
+  FetchPledgersParams,
+  PledgerCount,
+  PledgerCountsResponse,
+  PledgersResponse,
+} from "../interface/Pledger";
+
+const GRAPHQL_URL =
+  "https://api.studio.thegraph.com/query/13281/pledge/version/latest";
+
+const PLEDGERS_COUNT_QUERY = (startDate?: string, endDate?: string) => `{
+  pledgerCounts(where: {
+    updatedAt_gte: ${startDate ? Math.floor(new Date(startDate).getTime() / 1000) : "null"},
+    updatedAt_lte: ${endDate ? Math.floor(new Date(endDate).getTime() / 1000) : "null"}
+  }) {
+    id
+    count
+    updatedAt
+  }
+}`;
 
 export class PledgersService {
   constructor(private supabase: SupabaseClient) {}
@@ -68,6 +87,38 @@ export class PledgersService {
       throw new Error(
         error.message || "An unknown error occurred while fetching pledgers",
       );
+    }
+  }
+
+  async getPledgerCounts(
+    startDate?: string,
+    endDate?: string,
+  ): Promise<PledgerCount[]> {
+    try {
+      const query = PLEDGERS_COUNT_QUERY(startDate, endDate);
+      const response = await fetch(GRAPHQL_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching pledger counts: ${response.statusText}`,
+        );
+      }
+
+      const result: PledgerCountsResponse = await response.json();
+      const parsedData = result.data.pledgerCounts.map((t) => ({
+        ...t,
+        updatedAt: new Date(parseInt(t.updatedAt) * 1000),
+      }));
+      return parsedData.filter((t) => t.id.toString() !== "1");
+    } catch (error) {
+      console.error("Failed to fetch pledger counts:", error);
+      throw error;
     }
   }
 }

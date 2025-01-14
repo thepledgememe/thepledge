@@ -18,6 +18,18 @@ export interface PledgersResponse {
   total: number;
 }
 
+export interface PledgerCount {
+  id: string;
+  count: string;
+  updatedAt: Date;
+}
+
+export interface PledgerCountsResponse {
+  data: {
+    pledgerCounts: (PledgerCount & { updatedAt: string })[];
+  };
+}
+
 export interface FetchPledgersParams {
   key?: string; // Filter key for wallet, name, or twitter
   status?: string; // Filter by status
