@@ -8,6 +8,7 @@ export interface Pledger {
   createdAt?: string;
   updatedAt?: string;
   lastPledgedAtTimestamp?: string;
+  firstPledgedAtTimestamp?: string;
   brokenHash?: string;
   brokenTimestamp?: string;
 }

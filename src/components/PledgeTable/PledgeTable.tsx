@@ -220,7 +220,7 @@ const PledgeTable: React.FC = () => {
                 </th>
                 <th
                   className={styles.tableHeaderCell}
-                  onClick={() => handleSort("last_pledged_at_timestamp")}
+                  onClick={() => handleSort("first_pledged_at_timestamp")}
                 >
                   <div className={styles.tableHeaderWrapper}>
                     UPHOLDING DAYS {getSortIcon("upholdingDays")}
@@ -286,7 +286,7 @@ const PledgeTable: React.FC = () => {
                     {item.status === STATUS_BROKEN
                       ? "Broken"
                       : item.status === "active"
-                        ? calculateDaysSince(item.lastPledgedAtTimestamp)
+                        ? calculateDaysSince(item.firstPledgedAtTimestamp)
                         : ""}
                   </td>
                 </tr>

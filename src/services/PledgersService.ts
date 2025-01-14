@@ -13,7 +13,7 @@ export class PledgersService {
         .from("PledgerData")
         .select(
           `wallet, name, twitter, pledged, balance, status, updated_at, last_pledged_at_timestamp,` +
-            `broken_hash, broken_timestamp`,
+            `first_pledged_at_timestamp, broken_hash, broken_timestamp`,
           { count: "exact" },
         )
         .neq("status", "");
@@ -58,6 +58,7 @@ export class PledgersService {
             brokenHash: rawData.broken_hash,
             brokenTimestamp: rawData.broken_timestamp,
             lastPledgedAtTimestamp: rawData.last_pledged_at_timestamp,
+            firstPledgedAtTimestamp: rawData.first_pledged_at_timestamp,
             createdAt: rawData.created_at,
           })) || [],
         total: count || 0,
