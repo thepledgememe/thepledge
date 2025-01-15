@@ -25,7 +25,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 );
 
 const DashBoardPage: React.FC = () => {
@@ -105,9 +105,7 @@ const DashBoardPage: React.FC = () => {
                     </div>
                 </section>*/}
           <section className={dashboardStyles.section}>
-            <h2 className={dashboardStyles.chartTitle}>
-              Share of Tokens Pledged
-            </h2>
+            <h2 className={dashboardStyles.chartTitle}>Number of Pledgers</h2>
             <div className={dashboardStyles.chartContainer}>
               <Line data={chartData} options={chartOptions as any} />
             </div>
