@@ -9,7 +9,7 @@ import {
 } from "../interface/Pledger";
 
 const GRAPHQL_URL =
-  "https://api.studio.thegraph.com/query/13281/pledge/version/latest";
+  "https://api.studio.thegraph.com/query/13281/pledge/v0.1.0";
 
 const PLEDGERS_COUNT_QUERY = (startDate?: string, endDate?: string) => `{
   pledgerCounts(where: {
