@@ -29,65 +29,172 @@ ChartJS.register(
 );
 
 const DashBoardPage: React.FC = () => {
-  const { pledgerCounts, fetchPledgerCounts } = useAppContext();
+  const { pledgerCounts, fetchPledgerCounts, totalPledgedHistory, fetchTotalPledgedHistory } = useAppContext();
 
   useEffect(() => {
     fetchPledgerCounts();
-  }, [fetchPledgerCounts]);
+    fetchTotalPledgedHistory();
+  }, [fetchPledgerCounts, fetchTotalPledgedHistory]);
 
-  const chartData = {
-    labels: pledgerCounts.map((count) => {
+  // Create unified timeline by merging and sorting all unique dates
+  const createUnifiedTimeline = () => {
+    const allDates = new Set<string>();
+    
+    // Add all pledger count dates
+    pledgerCounts.forEach(count => {
       const date = new Date(count.updatedAt);
-      return `${date.getMonth() + 1}/${date.getDate()}`;
-    }),
+      allDates.add(date.toISOString().split('T')[0]); // YYYY-MM-DD format
+    });
+    
+    // Add all total pledged dates
+    totalPledgedHistory.forEach(data => {
+      const date = new Date(data.updatedAt);
+      allDates.add(date.toISOString().split('T')[0]); // YYYY-MM-DD format
+    });
+    
+    // Sort dates and convert to display format
+    return Array.from(allDates)
+      .sort()
+      .map(dateStr => {
+        const date = new Date(dateStr);
+        return {
+          key: dateStr,
+          label: `${date.getMonth() + 1}/${date.getDate()}`
+        };
+      });
+  };
+
+  const unifiedTimeline = createUnifiedTimeline();
+
+  // Create data arrays aligned with unified timeline
+  const createAlignedData = () => {
+    const pledgerCountData: (number | null)[] = [];
+    const totalPledgedData: (number | null)[] = [];
+    
+    // Create lookup maps for faster access
+    const pledgerCountMap = new Map<string, number>();
+    pledgerCounts.forEach(count => {
+      const dateKey = new Date(count.updatedAt).toISOString().split('T')[0];
+      pledgerCountMap.set(dateKey, Number(count.count));
+    });
+    
+    const totalPledgedMap = new Map<string, number>();
+    totalPledgedHistory.forEach(data => {
+      const dateKey = new Date(data.updatedAt).toISOString().split('T')[0];
+      const pledgeValue = Number(data.total) / Math.pow(10, 18);
+      const millionValue = Math.round((pledgeValue / 1000000) * 100) / 100;
+      totalPledgedMap.set(dateKey, millionValue);
+    });
+    
+    // Fill data arrays based on unified timeline
+    unifiedTimeline.forEach(({ key }) => {
+      pledgerCountData.push(pledgerCountMap.get(key) || null);
+      totalPledgedData.push(totalPledgedMap.get(key) || null);
+    });
+    
+    return { pledgerCountData, totalPledgedData };
+  };
+
+  const { pledgerCountData, totalPledgedData } = createAlignedData();
+
+  const combinedChartData = {
+    labels: unifiedTimeline.map(item => item.label),
     datasets: [
       {
-        label: "Pledger Counts",
-        data: pledgerCounts.map((count) => Number(count.count)), // Convert count to number
+        label: "Pledger Count",
+        data: pledgerCountData,
         fill: false,
         borderColor: "#002E5D",
         backgroundColor: "#002E5D",
-        pointBackgroundColor: (context: any) =>
-          context.dataIndex === pledgerCounts.length - 1
-            ? "#FFD700"
-            : "#002E5D", // Highlight last point
-        pointRadius: (context: any) =>
-          context.dataIndex === pledgerCounts.length - 1 ? 8 : 4,
-        tension: 0.2, // Smoother curve
+        pointBackgroundColor: "#002E5D",
+        pointRadius: 4,
+        tension: 0.2,
         borderWidth: 2,
+        yAxisID: 'y',
+        spanGaps: true, // Connect points across null values
+      },
+      {
+        label: "Total Pledged (Millions PLEDGE)",
+        data: totalPledgedData,
+        fill: false,
+        borderColor: "#10B981",
+        backgroundColor: "#10B981",
+        pointBackgroundColor: "#10B981",
+        pointRadius: 4,
+        tension: 0.2,
+        borderWidth: 2,
+        yAxisID: 'y1',
+        spanGaps: true, // Connect points across null values
       },
     ],
   };
 
-  const chartOptions = {
+  const combinedChartOptions = {
     responsive: true,
+    interaction: {
+      mode: 'index' as const,
+      intersect: false,
+    },
     plugins: {
       legend: {
         display: true,
-        position: "top",
+        position: "top" as const,
       },
       datalabels: {
-        display: true,
-        align: "top",
-        color: "#555",
+        display: false, // Disable data labels for cleaner dual-axis chart
       },
     },
     scales: {
       x: {
-        type: "category",
+        type: "category" as const,
+        display: true,
         title: {
           display: true,
           text: "Date",
         },
       },
       y: {
+        type: 'linear' as const,
+        display: true,
+        position: 'left' as const,
         title: {
           display: true,
-          text: "Count",
+          text: "Pledger Count",
+          color: "#002E5D",
+        },
+        ticks: {
+          color: "#002E5D",
+          stepSize: 1, // Force integer steps
+          callback: function(value: any) {
+            if (Number.isInteger(value)) {
+              return value;
+            }
+            return null; // Don't show non-integer values
+          }
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
+      },
+      y1: {
+        type: 'linear' as const,
+        display: true,
+        position: 'right' as const,
+        title: {
+          display: true,
+          text: "Total Pledged (Millions PLEDGE)",
+          color: "#10B981",
+        },
+        ticks: {
+          color: "#10B981",
+        },
+        grid: {
+          drawOnChartArea: true,
         },
       },
     },
   };
+
 
   return (
     <Layout description="Explore our goals, FAQs, and more on the home page.">
@@ -105,9 +212,9 @@ const DashBoardPage: React.FC = () => {
                     </div>
                 </section>*/}
           <section className={dashboardStyles.section}>
-            <h2 className={dashboardStyles.chartTitle}>Number of Pledgers</h2>
+            <h2 className={dashboardStyles.chartTitle}>Pledger Metrics</h2>
             <div className={dashboardStyles.chartContainer}>
-              <Line data={chartData} options={chartOptions as any} />
+              <Line data={combinedChartData} options={combinedChartOptions as any} />
             </div>
           </section>
           <section className={dashboardStyles.section}>

@@ -4,6 +4,8 @@ import {
   PledgerCount,
   PledgerCountsResponse,
   PledgersResponse,
+  TotalPledged,
+  TotalPledgedResponse,
 } from "../interface/Pledger";
 
 const GRAPHQL_URL =
@@ -118,6 +120,61 @@ export class PledgersService {
       return parsedData.filter((t) => t.id.toString() !== "1");
     } catch (error) {
       console.error("Failed to fetch pledger counts:", error);
+      throw error;
+    }
+  }
+
+  async getTotalPledged(start?: Date, end?: Date): Promise<TotalPledged[]> {
+    try {
+      const startCondition = start ? 'updatedAt_gte: $startDate' : '';
+      const endCondition = end ? 'updatedAt_lte: $endDate' : '';
+      const whereConditions = [startCondition, endCondition, 'id_not: "1"']
+        .filter(Boolean)
+        .join(', ');
+
+      const query = `
+        query($startDate: Int, $endDate: Int) {
+          totalPledgeds(
+            orderBy: updatedAt
+            orderDirection: asc
+            where: {
+              ${whereConditions}
+            }
+            first: 1000
+          ) {
+            id
+            total
+            updatedAt
+          }
+        }
+      `;
+
+      const variables: any = {};
+      if (start) variables.startDate = Math.floor(start.getTime() / 1000);
+      if (end) variables.endDate = Math.floor(end.getTime() / 1000);
+
+      const response = await fetch(GRAPHQL_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query, variables }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching total pledged data: ${response.statusText}`,
+        );
+      }
+
+      const result: TotalPledgedResponse = await response.json();
+      const parsedData = result.data.totalPledgeds.map((t) => ({
+        ...t,
+        updatedAt: new Date(parseInt(t.updatedAt) * 1000),
+      }));
+      return parsedData.filter((t) => t.id.toString() !== "1");
+    } catch (error) {
+      console.error("Failed to fetch total pledged data:", error);
       throw error;
     }
   }

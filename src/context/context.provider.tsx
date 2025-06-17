@@ -20,7 +20,7 @@ import { appConfig } from "../web3/config";
 import BigNumber from "bignumber.js";
 import { pledgeAbi } from "../web3/abi";
 import { PledgersService } from "../services/PledgersService";
-import { Pledger, PledgerCount } from "../interface/Pledger";
+import { Pledger, PledgerCount, TotalPledged } from "../interface/Pledger";
 import supabaseClient from "../services/supabase";
 import { groupPledgerCountsByGranularity } from "../helpers/charts";
 
@@ -58,6 +58,8 @@ type AppContextType = {
   tokenAddress: string;
   fetchPledgerCounts: () => Promise<void>;
   pledgerCounts: PledgerCount[];
+  fetchTotalPledgedHistory: () => Promise<void>;
+  totalPledgedHistory: TotalPledged[];
   pledgersData: PledgersData;
 };
 
@@ -70,6 +72,7 @@ type AppProviderProps = {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const { connectors, connect, connectAsync, isPending } = useConnect();
   const [pledgerCounts, setPledgerCounts] = useState<PledgerCount[]>([]);
+  const [totalPledgedHistory, setTotalPledgedHistory] = useState<TotalPledged[]>([]);
   const [isInjectorInstalled, setIsInjectorInstalled] = useState(false);
   const { address, isConnected } = useAccount();
   const { writeContractAsync } = useWriteContract();
@@ -134,7 +137,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     try {
       const endDate = new Date();
       const startDate = new Date();
-      startDate.setMonth(endDate.getMonth() - 1);
+      startDate.setMonth(endDate.getMonth() - 3);
 
       const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, "0")}-${startDate.getDate().toString().padStart(2, "0")}`;
       const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, "0")}-${endDate.getDate().toString().padStart(2, "0")}`;
@@ -147,6 +150,36 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       setPledgerCounts(groupedData);
     } catch (error) {
       console.error("Failed to fetch pledger counts:", error);
+    } finally {
+      setIsFetchingPledgers(false);
+    }
+  }, [pledgersService]);
+
+  const fetchTotalPledgedHistory = useCallback(async () => {
+    setIsFetchingPledgers(true);
+    try {
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setMonth(endDate.getMonth() - 3);
+
+      const response = await pledgersService.getTotalPledged(startDate, endDate);
+      const groupedData = groupPledgerCountsByGranularity(
+        response.map(item => ({
+          id: item.id,
+          count: item.total, // Use total as count for grouping function
+          updatedAt: item.updatedAt
+        })),
+        "daily"
+      );
+      // Convert back to TotalPledged format
+      const totalPledgedData = groupedData.map(item => ({
+        id: item.id,
+        total: item.count, // Convert back from count to total
+        updatedAt: item.updatedAt
+      }));
+      setTotalPledgedHistory(totalPledgedData);
+    } catch (error) {
+      console.error("Failed to fetch total pledged history:", error);
     } finally {
       setIsFetchingPledgers(false);
     }
@@ -278,6 +311,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         tokenAddress,
         pledgerCounts,
         fetchPledgerCounts,
+        totalPledgedHistory,
+        fetchTotalPledgedHistory,
         pledgersData: {
           isFetchingPledgers,
           totalPledgersCount,

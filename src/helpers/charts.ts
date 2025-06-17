@@ -12,11 +12,12 @@ export const groupPledgerCountsByGranularity = (
     let groupKey: string;
 
     switch (granularity) {
-      case "weekly":
+      case "weekly": {
         const weekStart = new Date(date);
         weekStart.setDate(date.getDate() - date.getDay());
         groupKey = weekStart.toISOString().split("T")[0];
         break;
+      }
       case "monthly":
         groupKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}`;
         break;

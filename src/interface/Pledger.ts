@@ -37,3 +37,15 @@ export interface FetchPledgersParams {
   offset?: number; // Starting index for pagination
   sort?: { key: string; direction: string }; // Sort by column
 }
+
+export interface TotalPledged {
+  id: string;
+  total: string;
+  updatedAt: Date;
+}
+
+export interface TotalPledgedResponse {
+  data: {
+    totalPledgeds: (TotalPledged & { updatedAt: string })[];
+  };
+}
